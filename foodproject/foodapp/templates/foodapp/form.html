@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <form action="{% url 'foodapp:form-test' %}" method="post">
+        {% csrf_token %}
+        {{  form  | linebreaks  }}
+        <input type="submit" value="submit" name="submit">
+    </form>
+  </body>
+</html>

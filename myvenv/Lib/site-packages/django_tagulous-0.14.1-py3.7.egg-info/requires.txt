@@ -1,0 +1,11 @@
+
+[dev]
+tox
+jasmine
+
+[devdb]
+psycopg2
+mysqlclient
+
+[i18n]
+unidecode

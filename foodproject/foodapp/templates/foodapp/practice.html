@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  </head>
+  <body>
+    <h1><a href = "{% url 'foodapp:index' %}">Django Test</a></h1>
+    <div id = "grid">
+    <form action = "{% url 'foodapp:practice' %}" method = 'get'>
+    {% csrf_token %}
+    <p><input type = "text" placeholder = "재료를 입력하세요." name = "practice_ingredient"></p>
+    <p id = "same_row"><input type="submit" value = "검색"></p>
+    <p id = "same_row"><a href = "http://127.0.0.1:8000/admin/"><input type = "button" value = "편집"></a></p>
+    <p id = "same_row"><a href = "{%url 'foodapp:form-test' %}"><input type = "button" value = "메뉴추가"></a></p>
+    {% for menu in menus %}
+      <li>{{menu.name}}</a></li>
+    {% endfor %}
+    </form>
+
+
+    <span>
+        {% if len1 != 0 %}
+          <h2>Only {{input}}</h2>
+          {% for key1, value1 in newnew1.items %}
+            {% for menu in menus %}
+              {% if menu.name == key1 %}
+                {% if menu.link == None%}
+                  <li>{{key1}} - {{value1}}</a></li>
+                {% else %}
+                  <li><a href = {{menu.link}}> {{key1}}</a> - {{value1}}</li>
+                {% endif %}
+              {% endif %}
+            {% endfor %}
+          {% endfor %}
+        {% endif %}<br>
+
+        {% if len2 != 0 %}
+          <h2>{{input}} + 1</h2>
+          {% for key2, value2 in newnew2.items %}
+            {% for menu in menus %}
+              {% if menu.name == key2 %}
+                {% if menu.link == None%}
+                  <li>{{key2}} - {{value2}}</a></li>
+                {% else %}
+                  <li><a href = {{menu.link}}> {{key2}}</a> - {{value2}}</li>
+                {% endif %}
+              {% endif %}
+            {% endfor %}
+          {% endfor %}
+        {% endif %}<br>
+
+        {% if len3 != 0 %}
+          <h2>{{input}} + 2</h2>
+          {% for key3, value3 in newnew3.items %}
+            {% for menu in menus %}
+              {% if menu.name == key3 %}
+                {% if menu.link == None%}
+                  <li>{{key3}} - {{value3}}</a></li>
+                {% else %}
+                  <li><a href = {{menu.link}}> {{key3}}</a> - {{value3}}</li>
+                {% endif %}
+              {% endif %}
+            {% endfor %}
+          {% endfor %}
+        {% endif %}<br>
+
+        {% if len4 != 0 %}
+          <h2>{{input}} + α</h2>
+          {% for key4, value4 in newnew4.items %}
+            {% for menu in menus %}
+              {% if menu.name == key4 %}
+                {% if menu.link == None%}
+                  <li>{{key4}} - {{value4}}</a></li>
+                {% else %}
+                  <li><a href = {{menu.link}}> {{key4}}</a> - {{value4}}</li>
+                {% endif %}
+              {% endif %}
+            {% endfor %}
+          {% endfor %}
+        {% endif %}<br>
+
+        {{aaa2}}
+        {{bbb2}}
+        {{ccc2}}
+        {{ddd2}}
+    </span>
+    </div>
+  </body>
+</html>
