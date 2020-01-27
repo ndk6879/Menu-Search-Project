@@ -6,8 +6,16 @@ import io
 import cgi
 from django.urls import reverse
 from .forms import MenuForm
-from django.urls import reverse
-from .forms import MenuForm
+
+# 2가지 이상 재료 검색 & 검색창 설정하기
+# CSS 꾸미기
+# 배포
+# 재료 입력 (고기 or 돼지고기)-> 동일검색결과
+# 양념들 어떻게 할지
+# 댓글 & 후기
+
+# url field만들기 O
+# 없으면 출력 안시키기 O
 
 def index(request):
     menus = Menu.objects.all()
@@ -25,7 +33,7 @@ def index(request):
         vv = food.split(',')
         ingredient_list.append(vv)         # ingredient_list = ['마늘', '밥', '버터'], [' 국', ' 밥']
 
-    for ingredients in ingredient_list: # 26-42. 띄어쓰기 되어있는 ingredient_list의 element를 없애주고 새로운 new_list를 만들어줌.
+    for ingredients in ingredient_list:
         i = 0
         new_list = []
         for ingredient in ingredients:
@@ -46,223 +54,131 @@ def index(request):
     global dict_dict
     dict_dict = {}
     for q in range(0, len(names_as_keys)):
-        dict_dict[names_as_keys[q]] = ingredient_list[q]    # dict_dict = {'마늘볶음밥' : ['마늘', '밥', '버터'], '국밥' : [' 국', ' 밥']}
+        dict_dict[names_as_keys[q]] = ingredient_list[q]    # dict_dict is the final and complete form of dictionary that we want.
 
-    context = {'menus' : menus}
+    context = {'menus':menus}
     return render(request, 'foodapp/index.html', context)
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 def search_menu_text(request):
     menus = Menu.objects.all()
     input = request.GET.get('practice_ingredient')
-
-    one_ingredient_menuname = [] #재료가 1개인 메뉴 리스트
-    two_ingredient_menuname = []
-    three_ingredient_menuname = []
-    four_ingredient_menuname = []
-
-    one_ingredient_ingredient = [] #재료가 1개인 메뉴 재료 리스트
-    two_ingredient_ingredient = []
-    three_ingredient_ingredient = []
-    four_ingredient_ingredient = []
-
-    join_one_ingredient_name = [] #재료가 1개인 메뉴 리스트를 join
-    join_two_ingredient_name = []
-    join_three_ingredient_name = []
-    join_four_ingredient_name = []
-
-    join_one_ingredient_ingredient = [] #재료가 1개인 메뉴 재료 리스트 join
-    join_two_ingredient_ingredient = []
-    join_three_ingredient_ingredient = []
-    join_four_ingredient_ingredient = []
-
-    one_ingredient_menu2 = [] #재료가 2개인 메뉴 리스트
-    two_ingredient_menu2 = []
-    three_ingredient_menu2 = []
-    four_ingredient_menu2 = []
-    aaa2 = [] #재료가 2개인 메뉴 리스트 join
-    bbb2 = []
-    ccc2 = []
-    ddd2 = []
+    one_ingredient_menuname, two_ingredient_menuname, three_ingredient_menuname, four_ingredient_menuname  = [], [], [], [] #재료가 1개인 메뉴
+    one_ingredient_ingredient, two_ingredient_ingredient, three_ingredient_ingredient, four_ingredient_ingredient = [], [], [], [] #재료가 1개인 메뉴 재료 리스트
 
     i = 0
     q = 0
 
+    split_my_input = input.split(', ') #밥, 마늘 -> ['밥', '마늘']
+    try_menu_len = []
+    try_menu = []
+    for try_input in split_my_input:
+        if try_input == ((list(dict_dict.values())[i])[q]):
+            try_menu_len.append(try_input)
+            if len(split_my_input) == len(try_menu_len):
+                try_menu.append(((list(dict_dict.values())[i])))
+            else:
+                pass
+        else:
+            if q < len(list(dict_dict.values())[i]) - 1: # Situation of when input does not match with a value in a key and go to next value.
+                q = q + 1
+                continue
+
+            else: #Situation of when input does not match with a value in a key until the end and go to next key and start again.
+                i = i + 1
+                q = 0
+                continue
+        i = i + 1
+        q = 0
+
+
+
     while (i < len(list(dict_dict.keys()))):
-        if input == ((list(dict_dict.values())[i])[q]):                       #검색값이랑 같은 메뉴의 재료가 있는지 확인中
-            if len(list(dict_dict.values())[i]) == 1:                         #만약 재료가 1개라면
-                one_ingredient_menuname.append(list(dict_dict.keys())[i])     #one_ingredient_menuname = 재료가 1개 메뉴
-                one_ingredient_ingredient.append(list(dict_dict.values())[i]) #one_ingredient_ingredient = 재료가 1개인 메뉴의 재료
-                try:
-                    join_one_ingredient_name = ', '.join(one_ingredient_menuname)
-                    join_one_ingredient_ingredient = ', '.join(one_ingredient_ingredient)
-                except:
-                    None
-
-            elif len(list(dict_dict.values())[i]) == 2:
-                two_ingredient_menuname.append(list(dict_dict.keys())[i])
-                two_ingredient_ingredient.append(list(dict_dict.values())[i])
-                try:
-                    join_two_ingredient_name = ', '.join(two_ingredient_menuname)
-                    join_two_ingredient_ingredient = ', '.join(two_ingredient_ingredient)
-                except:
-                    None
-
-            elif len(list(dict_dict.values())[i]) == 3:
-                three_ingredient_menuname.append(list(dict_dict.keys())[i])
-                three_ingredient_ingredient.append(list(dict_dict.values())[i])
-                try:
-                    join_three_ingredient_name = ', '.join(three_menuingredient_name)
-                    join_three_ingredient_ingredient = ', '.join(three_ingredient_ingredient)
-                except:
-                    None
-
-            elif len(list(dict_dict.values())[i]) > 3:
-                four_ingredient_menuname.append(list(dict_dict.keys())[i])
-                four_ingredient_ingredient.append(list(dict_dict.values())[i])
-                try:
-                    join_four_ingredient_name = ', '.join(four_ingredient_menuname)
-                    join_four_ingredient_ingredient = ', '.join(four_ingredient_ingredient)
-                except:
-                    None
-
-
-
- #
- # ingredient_list = ['마늘', '밥', '버터'], [' 국', ' 밥']
- # 26-42. 띄어쓰기 되어있는 ingredient_list의 element를 없애주고 새로운 new_list를 만들어줌.
- # 마늘, 밥 -> separated_inputs = ['마늘', ' 밥']
-
-        # storage = []
-        # if ',' in input:
-        #     separated_inputs = input.split(', ')
-        #
-        #     for separated_input in separated_inputs:
-        #         i = 0
-        #         new_list = []
-        #         for separated_input_input in separated_input:
-        #                 if separated_input_input.startswith(' '):
-        #                     s1 = separated_input_input[1:]
-        #                     separated_input[i] = s1
-        #                     if i == len(separated_input) - 1: #3
-        #                         storage.append(separated_input)
-        #                     i += 1
-        #
-        #                 else:
-        #                     s1 = separated_input_input
-        #                     separated_input[i] = s1
-        #                     if i == len(separated_input) - 1:
-        #                         storage.append(separated_input)
-        #                     i += 1
-        #
-        #     for input in separated_inputs:
-        #         if input == ((list(dict_dict.values())[i])[q]):
-        #             storage.append((list(dict_dict.values())[i]))
-        #             pass
+        # split_my_input = input.split(', ') #밥, 마늘 -> ['밥', '마늘']
+        # try_menu_len = []
+        # try_menu = []
+        # for try_input in split_my_input:
+        #     if try_input == ((list(dict_dict.values())[i])[q]):
+        #         try_menu_len.append(try_input)
+        #         if len(split_my_input) == len(try_menu_len):
+        #             try_menu.append(((list(dict_dict.values())[i])))
         #         else:
         #             pass
+        #     else:
+        #         if q < len(list(dict_dict.values())[i]) - 1: # Situation of when input does not match with a value in a key and go to next value.
+        #             q = q + 1
+        #             continue
+        #
+        #         else: #Situation of when input does not match with a value in a key until the end and go to next key and start again.
+        #             i = i + 1
+        #             q = 0
+        #             continue
+        #     i = i + 1
+        #     q = 0
 
-            if len(separated_inputs) == len(storage):
-                if len(separated_inputs) == 2:
-                    if len(list(dict_dict.values())[i]) == 1:   #찾은 key값의 value가 input일 때
-                        one_ingredient_menu2.append(list(dict_dict.keys())[i])
-                        aaa2 = ', '.join(one_ingredient_menu2)
+        if input == ((list(dict_dict.values())[i])[q]): #compare value in a key and see if it's same as 재료_input
+            if len(list(dict_dict.values())[i]) == 1:   #찾은 key값의 value가 input일 때
+                # one_ingredient_menu.append('<div class="tt">' + list(dict_dict.keys())[i] + '<span class="tt-text">' + ', '.join(list(dict_dict.keys())[i]) + '</span>' + '</div>')
+                one_ingredient_menuname.append(list(dict_dict.keys())[i])
+                one_ingredient_ingredient.append(list(dict_dict.values())[i])
 
-                    elif len(list(dict_dict.values())[i]) == 2: #찾은 key값의 value가 input + 재료1개 더
-                        two_ingredient_menu2.append(list(dict_dict.keys())[i])
-                        bbb2 = ', '.join(two_ingredient_menu2)
+            elif len(list(dict_dict.values())[i]) == 2: #찾은 key값의 value가 input + 재료1개 더
+                two_ingredient_menuname.append(list(dict_dict.keys())[i])
+                two_ingredient_ingredient.append(list(dict_dict.values())[i])
 
-                    elif len(list(dict_dict.values())[i]) == 3: #찾은 key값의 value가 input + 재료2개 더
-                        three_ingredient_menu2.append(list(dict_dict.keys())[i])
-                        ccc2 = ', '.join(three_ingredient_menu2)
+            elif len(list(dict_dict.values())[i]) == 3: #찾은 key값의 value가 input + 재료2개 더
+                three_ingredient_menuname.append(list(dict_dict.keys())[i])
+                three_ingredient_ingredient.append(list(dict_dict.values())[i])
 
-                    else:                                                  #찾은 key값의 value가 input + 재료3개이상
-                        four_ingredient_menu2.append(list(dict_dict.keys())[i])
-                        ddd2 = ', '.join(four_ingredient_menu2)
+            elif len(list(dict_dict.values())[i]) > 3:                                                  #찾은 key값의 value가 input + 재료3개이상
+                four_ingredient_menuname.append(list(dict_dict.keys())[i])
+                four_ingredient_ingredient.append(list(dict_dict.values())[i])
 
-            else:
-                if q < len(list(dict_dict.values())[i]) - 1: # Situation of when input does not match with a value in a key and go to next value.
-                    q = q + 1
-                    continue
+        else:
+            if q < len(list(dict_dict.values())[i]) - 1: # Situation of when input does not match with a value in a key and go to next value.
+                q = q + 1
+                continue
 
-                else: #Situation of when input does not match with a value in a key until the end and go to next key and start again.
-                    i = i + 1
-                    q = 0
-                    continue
-            i = i + 1
-            q = 0
+            else: #Situation of when input does not match with a value in a key until the end and go to next key and start again.
+                i = i + 1
+                q = 0
+                continue
+        i = i + 1
+        q = 0
 
-    len1 = len(one_ingredient_menuname)
-    len2 = len(two_ingredient_menuname)
-    len3 = len(three_ingredient_menuname)
-    len4 = len(four_ingredient_menuname)
-
-    newnew1 = {}
-    qq1 = 0
+    newnew1, newnew2, newnew3, newnew4 = {}, {}, {}, {}
     try:
         for qq in range(0, len(one_ingredient_menuname)):
             newnew1[one_ingredient_menuname[qq]] = ', '.join(one_ingredient_ingredient[qq])
     except:
         pass
 
-    newnew2 = {}
-    qq2 = 0
     try:
         for qq in range(0, len(two_ingredient_menuname)):
             newnew2[two_ingredient_menuname[qq]] = ', '.join(two_ingredient_ingredient[qq])
     except:
         pass
 
-    newnew3 = {}
-    qq3 = 0
     try:
         for qq in range(0, len(three_ingredient_menuname)):
             newnew3[three_ingredient_menuname[qq]] = ', '.join(three_ingredient_ingredient[qq])
     except:
         pass
 
-    newnew4 = {}
-    qq4 = 0
     try:
         for qq in range(0, len(four_ingredient_menuname)):
             newnew4[four_ingredient_menuname[qq]] = ', '.join(four_ingredient_ingredient[qq])
     except:
         pass
 
-    context = {
-    'menus' : menus, 'input' : input,
-    'newnew1' : newnew1, 'newnew2' : newnew2, 'newnew3' : newnew3, 'newnew4' : newnew4,
-      'len1' : len1, 'len2' : len2, 'len3' : len3, 'len4' : len4,
-      'join_one_ingredient_ingredient' : join_one_ingredient_ingredient, 'join_two_ingredient_ingredient' : join_two_ingredient_ingredient, 'join_three_ingredient_ingredient' : join_three_ingredient_ingredient, 'join_four_ingredient_ingredient' : join_four_ingredient_ingredient,
-      'one_ingredient_ingredient' : one_ingredient_ingredient, 'two_ingredient_ingredient' : two_ingredient_ingredient, 'three_ingredient_ingredient' : three_ingredient_ingredient, 'four_ingredient_ingredient' : four_ingredient_ingredient,
-      'aaa2' : aaa2, 'bbb2' : bbb2, 'ccc2' : ccc2, 'ddd2' : ddd2,
-      'one_ingredient_menu2' : one_ingredient_menu2, 'two_ingredient_menu2' : two_ingredient_menu2, 'three_ingredient_menu2' : three_ingredient_menu2, 'four_ingredient_menu2' :four_ingredient_menu2,
-      'join_one_ingredient_name' : join_one_ingredient_name, 'join_two_ingredient_name' : join_two_ingredient_name, 'join_three_ingredient_name' : join_three_ingredient_name, 'join_four_ingredient_name' : join_four_ingredient_name,
-      'dict_dict' : dict_dict, 'input' : input,
-      'one_ingredient_menuname' : one_ingredient_menuname, 'two_ingredient_menuname' : two_ingredient_menuname,
-      'three_ingredient_menuname' : three_ingredient_menuname, 'four_ingredient_menuname' : four_ingredient_menuname
-     }
+    len1, len2, len3, len4 = len(one_ingredient_menuname), len(two_ingredient_menuname), len(three_ingredient_menuname), len(four_ingredient_menuname)
 
+    context = {'input' : input, 'newnew1' : newnew1, 'newnew2' : newnew2, 'newnew3' : newnew3, 'newnew4' : newnew4,
+    'input' : input, 'menus' : menus,
+    'len1' : len1, 'len2' : len2, 'len3' : len3, 'len4' : len4,
+    'try_menu' : try_menu
+    }
     return render(request, 'foodapp/practice.html', context)
-
-
-
-
-
-
-
 
 
 def add_menu_button(request):

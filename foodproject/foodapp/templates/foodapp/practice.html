@@ -16,10 +16,9 @@
     <p id = "same_row"><a href = "http://127.0.0.1:8000/admin/"><input type = "button" value = "편집"></a></p>
     <p id = "same_row"><a href = "{%url 'foodapp:form-test' %}"><input type = "button" value = "메뉴추가"></a></p>
     {% for menu in menus %}
-      <li>{{menu.name}}</a></li>
+      <li>{{menu.name}} - {{menu.ingredient}}</a></li>
     {% endfor %}
     </form>
-
 
     <span>
         {% if len1 != 0 %}
@@ -81,12 +80,9 @@
             {% endfor %}
           {% endfor %}
         {% endif %}<br>
-
-        {{aaa2}}
-        {{bbb2}}
-        {{ccc2}}
-        {{ddd2}}
     </span>
+    {{try_menu}}
+
     </div>
   </body>
 </html>
