@@ -21,9 +21,9 @@
     </form>
 
     <span>
-        {% if len1 != 0 %}
+        {% if len_try_a != 0%}
           <h2>Only {{input}}</h2>
-          {% for key1, value1 in newnew1.items %}
+          {% for key1, value1 in menu_set1.items %}
             {% for menu in menus %}
               {% if menu.name == key1 %}
                 {% if menu.link == None%}
@@ -36,9 +36,9 @@
           {% endfor %}
         {% endif %}<br>
 
-        {% if len2 != 0 %}
+        {% if len_try_b != 0 %}
           <h2>{{input}} + 1</h2>
-          {% for key2, value2 in newnew2.items %}
+          {% for key2, value2 in menu_set2.items %}
             {% for menu in menus %}
               {% if menu.name == key2 %}
                 {% if menu.link == None%}
@@ -51,9 +51,9 @@
           {% endfor %}
         {% endif %}<br>
 
-        {% if len3 != 0 %}
+        {% if len_try_c != 0 %}
           <h2>{{input}} + 2</h2>
-          {% for key3, value3 in newnew3.items %}
+          {% for key3, value3 in menu_set3.items %}
             {% for menu in menus %}
               {% if menu.name == key3 %}
                 {% if menu.link == None%}
@@ -66,9 +66,9 @@
           {% endfor %}
         {% endif %}<br>
 
-        {% if len4 != 0 %}
+        {% if len_try_d != 0 %}
           <h2>{{input}} + α</h2>
-          {% for key4, value4 in newnew4.items %}
+          {% for key4, value4 in menu_set4.items %}
             {% for menu in menus %}
               {% if menu.name == key4 %}
                 {% if menu.link == None%}
@@ -81,8 +81,6 @@
           {% endfor %}
         {% endif %}<br>
     </span>
-    {{try_menu}}
-
     </div>
   </body>
 </html>

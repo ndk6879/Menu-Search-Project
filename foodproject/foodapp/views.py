@@ -7,15 +7,15 @@ import cgi
 from django.urls import reverse
 from .forms import MenuForm
 
-# 2가지 이상 재료 검색 & 검색창 설정하기
 # CSS 꾸미기
 # 배포
 # 재료 입력 (고기 or 돼지고기)-> 동일검색결과
 # 양념들 어떻게 할지
 # 댓글 & 후기
-
+# 2가지 이상 재료 검색 & 검색창 설정하기 O
 # url field만들기 O
 # 없으면 출력 안시키기 O
+
 
 def index(request):
     menus = Menu.objects.all()
@@ -59,124 +59,75 @@ def index(request):
     context = {'menus':menus}
     return render(request, 'foodapp/index.html', context)
 
-
 def search_menu_text(request):
     menus = Menu.objects.all()
     input = request.GET.get('practice_ingredient')
-    one_ingredient_menuname, two_ingredient_menuname, three_ingredient_menuname, four_ingredient_menuname  = [], [], [], [] #재료가 1개인 메뉴
-    one_ingredient_ingredient, two_ingredient_ingredient, three_ingredient_ingredient, four_ingredient_ingredient = [], [], [], [] #재료가 1개인 메뉴 재료 리스트
-
+    split_my_input = input.split(', ') #밥, 마늘 -> ['밥', '마늘']
+    save_my_input = []
+    save_my_menu = []
     i = 0
     q = 0
-
-    split_my_input = input.split(', ') #밥, 마늘 -> ['밥', '마늘']
-    try_menu_len = []
-    try_menu = []
-    for try_input in split_my_input:
-        if try_input == ((list(dict_dict.values())[i])[q]):
-            try_menu_len.append(try_input)
-            if len(split_my_input) == len(try_menu_len):
-                try_menu.append(((list(dict_dict.values())[i])))
-            else:
-                pass
-        else:
-            if q < len(list(dict_dict.values())[i]) - 1: # Situation of when input does not match with a value in a key and go to next value.
-                q = q + 1
-                continue
-
-            else: #Situation of when input does not match with a value in a key until the end and go to next key and start again.
-                i = i + 1
-                q = 0
-                continue
-        i = i + 1
-        q = 0
-
-
+    menu_one, menu_two, menu_three, menu_four = [], [], [], []
+    menu_one_ingredient, menu_two_ingredient, menu_three_ingredient, menu_four_ingredient = [], [], [], []
 
     while (i < len(list(dict_dict.keys()))):
-        # split_my_input = input.split(', ') #밥, 마늘 -> ['밥', '마늘']
-        # try_menu_len = []
-        # try_menu = []
-        # for try_input in split_my_input:
-        #     if try_input == ((list(dict_dict.values())[i])[q]):
-        #         try_menu_len.append(try_input)
-        #         if len(split_my_input) == len(try_menu_len):
-        #             try_menu.append(((list(dict_dict.values())[i])))
-        #         else:
-        #             pass
-        #     else:
-        #         if q < len(list(dict_dict.values())[i]) - 1: # Situation of when input does not match with a value in a key and go to next value.
-        #             q = q + 1
-        #             continue
-        #
-        #         else: #Situation of when input does not match with a value in a key until the end and go to next key and start again.
-        #             i = i + 1
-        #             q = 0
-        #             continue
-        #     i = i + 1
-        #     q = 0
+        for input in split_my_input:
+            if input in ((list(dict_dict.values())[i])):
+                save_my_input.append(input)
+                if len(split_my_input) == len(save_my_input):
+                    save_my_menu.append(list(dict_dict.keys())[i])
+                    if len(list(dict_dict.values())[i]) == 1:
+                        menu_one.append(list(dict_dict.keys())[i])
+                        menu_one_ingredient.append(list(dict_dict.values())[i])
 
-        if input == ((list(dict_dict.values())[i])[q]): #compare value in a key and see if it's same as 재료_input
-            if len(list(dict_dict.values())[i]) == 1:   #찾은 key값의 value가 input일 때
-                # one_ingredient_menu.append('<div class="tt">' + list(dict_dict.keys())[i] + '<span class="tt-text">' + ', '.join(list(dict_dict.keys())[i]) + '</span>' + '</div>')
-                one_ingredient_menuname.append(list(dict_dict.keys())[i])
-                one_ingredient_ingredient.append(list(dict_dict.values())[i])
+                    elif len(list(dict_dict.values())[i]) == 2:
+                        menu_two.append(list(dict_dict.keys())[i])
+                        menu_two_ingredient.append(list(dict_dict.values())[i])
 
-            elif len(list(dict_dict.values())[i]) == 2: #찾은 key값의 value가 input + 재료1개 더
-                two_ingredient_menuname.append(list(dict_dict.keys())[i])
-                two_ingredient_ingredient.append(list(dict_dict.values())[i])
+                    elif len(list(dict_dict.values())[i]) == 3:
+                        menu_three.append(list(dict_dict.keys())[i])
+                        menu_three_ingredient.append(list(dict_dict.values())[i])
 
-            elif len(list(dict_dict.values())[i]) == 3: #찾은 key값의 value가 input + 재료2개 더
-                three_ingredient_menuname.append(list(dict_dict.keys())[i])
-                three_ingredient_ingredient.append(list(dict_dict.values())[i])
+                    elif len(list(dict_dict.values())[i]) > 3:
+                        menu_four.append(list(dict_dict.keys())[i])
+                        menu_four_ingredient.append(list(dict_dict.values())[i])
 
-            elif len(list(dict_dict.values())[i]) > 3:                                                  #찾은 key값의 value가 input + 재료3개이상
-                four_ingredient_menuname.append(list(dict_dict.keys())[i])
-                four_ingredient_ingredient.append(list(dict_dict.values())[i])
-
-        else:
-            if q < len(list(dict_dict.values())[i]) - 1: # Situation of when input does not match with a value in a key and go to next value.
-                q = q + 1
-                continue
-
-            else: #Situation of when input does not match with a value in a key until the end and go to next key and start again.
-                i = i + 1
-                q = 0
-                continue
+        save_my_input = []
         i = i + 1
-        q = 0
 
-    newnew1, newnew2, newnew3, newnew4 = {}, {}, {}, {}
+    len_try_a, len_try_b, len_try_c, len_try_d = len(menu_one), len(menu_two), len(menu_three), len(menu_four)
+
+    menu_set1, menu_set2, menu_set3, menu_set4 = {}, {}, {}, {}
     try:
-        for qq in range(0, len(one_ingredient_menuname)):
-            newnew1[one_ingredient_menuname[qq]] = ', '.join(one_ingredient_ingredient[qq])
+        for qq in range(0, len(menu_one)):
+            menu_set1[menu_one[qq]] = ', '.join(menu_one_ingredient[qq])
     except:
         pass
 
     try:
-        for qq in range(0, len(two_ingredient_menuname)):
-            newnew2[two_ingredient_menuname[qq]] = ', '.join(two_ingredient_ingredient[qq])
+        for qq in range(0, len(menu_two)):
+            menu_set2[menu_two[qq]] = ', '.join(menu_two_ingredient[qq])
     except:
         pass
 
     try:
-        for qq in range(0, len(three_ingredient_menuname)):
-            newnew3[three_ingredient_menuname[qq]] = ', '.join(three_ingredient_ingredient[qq])
+        for qq in range(0, len(menu_three)):
+            menu_set3[menu_three[qq]] = ', '.join(menu_three_ingredient[qq])
     except:
         pass
 
     try:
-        for qq in range(0, len(four_ingredient_menuname)):
-            newnew4[four_ingredient_menuname[qq]] = ', '.join(four_ingredient_ingredient[qq])
+        for qq in range(0, len(menu_four)):
+            menu_set4[menu_four[qq]] = ', '.join(menu_four_ingredient[qq])
     except:
         pass
 
-    len1, len2, len3, len4 = len(one_ingredient_menuname), len(two_ingredient_menuname), len(three_ingredient_menuname), len(four_ingredient_menuname)
-
-    context = {'input' : input, 'newnew1' : newnew1, 'newnew2' : newnew2, 'newnew3' : newnew3, 'newnew4' : newnew4,
-    'input' : input, 'menus' : menus,
-    'len1' : len1, 'len2' : len2, 'len3' : len3, 'len4' : len4,
-    'try_menu' : try_menu
+    context = {'input' : input, 'menus' : menus,
+    'save_my_input' : save_my_input, 'save_my_menu' : save_my_menu,
+    'menu_one' : menu_one, 'menu_two' : menu_two, 'menu_three' : menu_three, 'menu_four' : menu_four,
+    'menu_one_ingredient' : menu_one_ingredient, 'menu_two_ingredient' : menu_two_ingredient, 'menu_three_ingredient' : menu_three_ingredient, 'menu_four_ingredient' :menu_four_ingredient,
+    'menu_set1': menu_set1, 'menu_set2': menu_set2, 'menu_set3': menu_set3, 'menu_set4': menu_set4,
+    'len_try_a' : len_try_a, 'len_try_b' : len_try_b, 'len_try_c' : len_try_c, 'len_try_d' : len_try_d
     }
     return render(request, 'foodapp/practice.html', context)
 
