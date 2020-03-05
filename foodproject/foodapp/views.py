@@ -7,11 +7,12 @@ import cgi
 from django.urls import reverse
 from .forms import MenuForm
 
-# CSS 꾸미기
-# 배포
+
+# essential재료, non-essneitals재료  & 양념들 어떻게 할지 -> model에서 non-essneitals재료 추가.
 # 재료 입력 (고기 or 돼지고기)-> 동일검색결과
-# 양념들 어떻게 할지
-# 댓글 & 후기
+# CSS 꾸미기
+# # 나의 review & 댓글,후기
+# 배포
 # 2가지 이상 재료 검색 & 검색창 설정하기 O
 # url field만들기 O
 # 없으면 출력 안시키기 O

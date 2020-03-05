@@ -6,19 +6,22 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
   </head>
+
   <body>
-    <h1><a href = "{% url 'foodapp:index' %}">Django Test</a></h1>
+    <div id = "head">
+      <h1>
+        <a href = "{% url 'foodapp:index' %}">Django Test</a>
+        <form action = "{% url 'foodapp:practice' %}" autocomplete= "on" method = 'get'>
+        {% csrf_token %}
+        <input type = "text" placeholder = "재료를 입력하세요." name = "practice_ingredient">
+        <a href = "http://127.0.0.1:8000/admin/"><input type = "button" value = "편집"></a>
+        <a href = "{%url 'foodapp:form-test' %}"><input type = "button" value = "메뉴추가"></a>
+      </h1>
+    </div>
+
     <div id = "grid">
-    <form action = "{% url 'foodapp:practice' %}" method = 'get'>
-    {% csrf_token %}
-    <p><input type = "text" placeholder = "재료를 입력하세요." name = "practice_ingredient"></p>
-    <p id = "same_row"><input type="submit" value = "검색"></p>
-    <p id = "same_row"><a href = "http://127.0.0.1:8000/admin/"><input type = "button" value = "편집"></a></p>
-    <p id = "same_row"><a href = "{%url 'foodapp:form-test' %}"><input type = "button" value = "메뉴추가"></a></p>
-    {% for menu in menus %}
-      <li>{{menu.name}} - {{menu.ingredient}}</a></li>
-    {% endfor %}
-    </form>
+      <div class = "same_row">
+      </div>
 
     <span>
         {% if len_try_a != 0%}

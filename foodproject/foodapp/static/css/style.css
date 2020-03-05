@@ -4,6 +4,11 @@
     font-size: 100%;
   }
 
+  #head{
+    text-align: center;
+  }
+
+
   .tt {
     position: relative;
     display: inline-block;
@@ -39,9 +44,11 @@
     visibility: visible;
   }
 
-  #same_row {
-    padding-top: 0px;
-    color: red;
+  .same_row {
+    margin: 0;
+    padding: 0;
+    padding: 17.5px;
+    padding-left: 10px;
   }
 
   #filtered_menu {
@@ -49,28 +56,25 @@
   }
 
   h1 {
-      border-bottom: 1px solid green;
-      text-align: center;
       margin: 0;
       padding-top: 2.5px;
       padding-bottom: 2.5px;
       color: green;
   }
+
+  h1 > a {
+    text-align: right;
+  }
   #grid {
       display: grid;
-      grid-template-columns: 220px 1fr;
+      grid-template-columns: 250px 1fr;
   }
 
-  #grid > .grid {
-      padding: 20px;
-      padding-left: 10px;
-      padding-bottom: 0;
-  }
 
   form {
-      border-right: 1px solid green;
+      display: inline;
       margin: 0;
-      width: 200px;
+      width: 400px;
   }
 
   p {
@@ -115,4 +119,8 @@
 
   span > li {
     padding: 0;
+  }
+
+  li {
+    border-right: 40px;
   }
