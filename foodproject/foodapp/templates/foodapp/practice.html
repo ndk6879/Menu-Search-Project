@@ -13,7 +13,7 @@
         <a href = "{% url 'foodapp:index' %}">Django Test</a>
         <form action = "{% url 'foodapp:practice' %}" autocomplete= "on" method = 'get'>
         {% csrf_token %}
-        <input type = "text" placeholder = "재료를 입력하세요." name = "practice_ingredient">
+        <input type = "text" name = "practice_ingredient"><!-- placeholder = "재료를 입력하세요." -->
         <a href = "http://127.0.0.1:8000/admin/"><input type = "button" value = "편집"></a>
         <a href = "{%url 'foodapp:form-test' %}"><input type = "button" value = "메뉴추가"></a>
       </h1>
