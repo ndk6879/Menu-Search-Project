@@ -1,14 +1,88 @@
 <!DOCTYPE html>
+{% load static %}
+
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+    .form-inline {
+      display: inline;
+    }
+    .form-inline > input {
+      margin: 8px;
+    }
+
+    .form-inline > .form-control.mr-sm-2 {
+      margin: 0;
+    }
+    </style>
   </head>
+
   <body>
-    <form action="{% url 'foodapp:form-test' %}" method="post">
-        {% csrf_token %}
-        {{  form  | linebreaks  }}
-        <input type="submit" value="submit" name="submit">
-    </form>
+    <div class = "container">
+      <div class = "jumbotron text-center">
+          <h2><a href = "{% url 'foodapp:index' %}">DJango Test</a></h1>
+          <!--
+          <form action = "{% url 'foodapp:search' %}" autocomplete= "on" method = 'method'>
+          {% csrf_token %}
+          <input type = "text" name = "practice_ingredient">
+          <a href = "http://127.0.0.1:8000/admin/"><input type = "button" value = "Edit"></a>
+          <a href = "{%url 'foodapp:create' %}"><input type = "button" value = "Create"></a>
+          -->
+      </div>
+
+      <div class="row">
+        <div class="col-md-3" id = 'one'>
+          {% for menu in menus %}
+            <li>{{menu.name}}</li>
+          {% endfor %}
+          {% csrf_token %}
+        </div>
+
+
+        <div class="col-md-9" id = 'two'>
+          <form class="form-inline" action = "{% url 'foodapp:search' %}" autocomplete= "on">
+            <input class="form-control mr-sm-2" type="search" name = "practice_ingredient" placeholder="Search" aria-label="Search">
+            <button class = "btn btn-outline-primary btn-md" type="submit">Search</button>
+          </form>
+          <button class = "btn btn-outline-primary btn-md" value = "Edit" onClick="location.href='http://127.0.0.1:8000/admin/'">Edit</button>
+          <button class = "btn btn-outline-primary btn-md" value = "Create" onClick="location.href='http://127.0.0.1:8000/create/'">Create</button>
+          <hr>
+
+
+                  <div class="col-md-9" id = 'two'>
+                    <form action="{% url 'foodapp:create' %}" method="post">
+                        <div class="form-group">
+                          <label for="name">Name</label>
+                          <input type="text" class="form-control" id="name" name = 'name'>
+
+                          <label for="Essential_Ingredient">Essential Ingredient</label>
+                          <input type="text" class="form-control" id="Essential_Ingredient" name = 'Essential_Ingredient'>
+
+                          <label for="Nonessential_Ingredient">Nonessential Ingredient</label>
+                          <input type="text" class="form-control" id="Nonessential_Ingredient" name = 'Nonessential_Ingredient'>
+
+                          <label for="link">Link</label>
+                          <input type="text" class="form-control" id="link" name = 'link'>
+
+                          <label for="tip">Tip</label>
+                          <textarea rows = "5" class="form-control" id="tip" name = 'tip'></textarea>
+                        </div>
+                        <input type="submit" class = "btn btn-outline-primary btn-md" value="Submit" name="submit">
+
+                        {% csrf_token %}
+                      </form>
+
+        </div>
+
+      </div>
+      <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    </div>
   </body>
 </html>

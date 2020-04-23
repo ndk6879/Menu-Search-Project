@@ -15,7 +15,7 @@
     .form-inline > input {
       margin: 8px;
     }
-
+  
     .form-inline > .form-control.mr-sm-2 {
       margin: 0;
     }
@@ -53,9 +53,67 @@
           <button class = "btn btn-outline-primary btn-md" value = "Edit" onClick="location.href='http://127.0.0.1:8000/admin/'">Edit</button>
           <button class = "btn btn-outline-primary btn-md" value = "Create" onClick="location.href='http://127.0.0.1:8000/create/'">Create</button>
           <hr>
-          <h4>Welcome!
-        </div>
+          <span>
+              {% if len_try_a != 0%}
+                <h2>Only {{input}}</h2>
+                {% for key1, value1 in menu_set1.items %}
+                  {% for menu in menus %}
+                    {% if menu.name == key1 %}
+                      {% if menu.link == None%}
+                        <li>{{key1}} - {{value1}}</a></li>
+                      {% else %}
+                        <li><a href = {{menu.link}}> {{key1}}</a> - {{value1}}</li>
+                      {% endif %}
+                    {% endif %}
+                  {% endfor %}
+                {% endfor %}
+              {% endif %}<br>
 
+              {% if len_try_b != 0 %}
+                <h2>{{input}} + 1</h2>
+                {% for key2, value2 in menu_set2.items %}
+                  {% for menu in menus %}
+                    {% if menu.name == key2 %}
+                      {% if menu.link == None%}
+                        <li>{{key2}} - {{value2}}</a></li>
+                      {% else %}
+                        <li><a href = {{menu.link}}> {{key2}}</a> - {{value2}}</li>
+                      {% endif %}
+                    {% endif %}
+                  {% endfor %}
+                {% endfor %}
+              {% endif %}<br>
+
+              {% if len_try_c != 0 %}
+                <h2>{{input}} + 2</h2>
+                {% for key3, value3 in menu_set3.items %}
+                  {% for menu in menus %}
+                    {% if menu.name == key3 %}
+                      {% if menu.link == None%}
+                        <li>{{key3}} - {{value3}}</a></li>
+                      {% else %}
+                        <li><a href = {{menu.link}}> {{key3}}</a> - {{value3}}</li>
+                      {% endif %}
+                    {% endif %}
+                  {% endfor %}
+                {% endfor %}
+              {% endif %}<br>
+
+              {% if len_try_d != 0 %}
+                <h2>{{input}} + α</h2>
+                {% for key4, value4 in menu_set4.items %}
+                  {% for menu in menus %}
+                    {% if menu.name == key4 %}
+                      {% if menu.link == None%}
+                        <li>{{key4}} - {{value4}}</a></li>
+                      {% else %}
+                        <li><a href = {{menu.link}}> {{key4}}</a> - {{value4}}</li>
+                      {% endif %}
+                    {% endif %}
+                  {% endfor %}
+                {% endfor %}
+              {% endif %}<br>
+          </span>
       </div>
       <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
       <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>

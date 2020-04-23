@@ -4,10 +4,6 @@
     font-size: 100%;
   }
 
-  #head{
-    text-align: center;
-  }
-
 
   .tt {
     position: relative;
@@ -59,7 +55,6 @@
       margin: 0;
       padding-top: 2.5px;
       padding-bottom: 2.5px;
-      color: green;
   }
 
   h1 > a {
@@ -98,7 +93,7 @@
   li{
     padding-left: 10px;
     padding-bottom: 7.5px;
-    color: green;
+    color: #007bff;;
   }
 
   #food_list {
@@ -106,7 +101,6 @@
   }
 
   #add_menu {
-    border: 1px solid green;
     margin: 0;
     padding: 0;
     padding: 17.5px;

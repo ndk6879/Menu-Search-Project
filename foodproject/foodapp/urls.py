@@ -8,8 +8,8 @@ from .forms import *
 app_name = 'foodapp'
 urlpatterns = [
     path('', views.index, name = 'index'),
-    path('form-test/', views.add_menu_button, name='form-test'),
-    path('practice', views.search_menu_text, name = 'practice'),
+    path('create/', views.create, name='create'),
+    path('search', views.search, name = 'search'),
 ]
 
 #    re_path(r'^keword-parameter/(?P<cellphonee>010[1-9]\d{7})$', views.get_cellphone),

@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import Menu
 import sys
@@ -7,21 +7,26 @@ import cgi
 from django.urls import reverse
 from .forms import MenuForm
 
-
+#nav var
+# db구현화(name클릭하면 필드 나오기)
 # essential재료, non-essneitals재료  & 양념들 어떻게 할지 -> model에서 non-essneitals재료 추가.
 # 재료 입력 (고기 or 돼지고기)-> 동일검색결과
-# CSS 꾸미기
-# # 나의 review & 댓글,후기
+#views.refactoring
+#search keywords by tag key
+# # 나의 review & 댓글,후기, Q&A
 # 배포
+
 # 2가지 이상 재료 검색 & 검색창 설정하기 O
 # url field만들기 O
 # 없으면 출력 안시키기 O
+# CSS 꾸미기 (index.page, create page) O
+# db name 순서대로 OK
 
 
 def index(request):
-    menus = Menu.objects.all()
+    menus = Menu.objects.all().order_by('name')
     names = Menu.objects.values_list('name', flat=True) #모델에 있는 메뉴
-    ingredients = Menu.objects.values_list('ingredient', flat=True) #모델에 있는 메뉴 재료
+    ingredients = Menu.objects.values_list('Essential_Ingredient', flat=True) #모델에 있는 메뉴 재료
 
     new_dicts = {}
     for i in range(0, len(names)):
@@ -31,9 +36,11 @@ def index(request):
 
     ingredient_list = []
     for food in ingredients_as_values: # ingredients_as_values = '마늘, 밥, 버터', '국, 밥' , food = '마늘, 밥, 버터'
-        vv = food.split(',')
-        ingredient_list.append(vv)         # ingredient_list = ['마늘', '밥', '버터'], [' 국', ' 밥']
-
+        if food:
+            vv = food.split(',')
+            ingredient_list.append(vv)         # ingredient_list = ['마늘', '밥', '버터'], [' 국', ' 밥']
+        else:
+            ingredient_list.append(food)         # ingredient_list = ['마늘', '밥', '버터'], [' 국', ' 밥']
     for ingredients in ingredient_list:
         i = 0
         new_list = []
@@ -60,7 +67,7 @@ def index(request):
     context = {'menus':menus}
     return render(request, 'foodapp/index.html', context)
 
-def search_menu_text(request):
+def search(request):
     menus = Menu.objects.all()
     input = request.GET.get('practice_ingredient')
     split_my_input = input.split(', ') #밥, 마늘 -> ['밥', '마늘']
@@ -130,22 +137,30 @@ def search_menu_text(request):
     'menu_set1': menu_set1, 'menu_set2': menu_set2, 'menu_set3': menu_set3, 'menu_set4': menu_set4,
     'len_try_a' : len_try_a, 'len_try_b' : len_try_b, 'len_try_c' : len_try_c, 'len_try_d' : len_try_d
     }
-    return render(request, 'foodapp/practice.html', context)
+    return render(request, 'foodapp/search.html', context)
 
 
-def add_menu_button(request):
+def create(request):
     menus = Menu.objects.all()
-    context = {'menus':menus}
     if request.method == 'POST':
         form = MenuForm(request.POST)
         if form.is_valid():
-            obj = Menu(name=form.data['name'], ingredient=form.data['ingredient'], link=form.data['link'])
+            obj = Menu(name=form.data['name'], Essential_Ingredient=form.data['Essential_Ingredient'], Nonessential_Ingredient=form.data['Nonessential_Ingredient'], link=form.data['link'], tip=form.data['tip'])
             obj.save()
-            return render(request, 'foodapp/index.html', context)
+            return redirect('http://127.0.0.1:8000/')
         return HttpResponse('fail')
-
     elif request.method == 'GET':
         form = MenuForm()
-        return render(request, 'foodapp/form.html', {'form': form})
+        return render(request, 'foodapp/form.html', {'form': form, 'menus' : menus})
     else:
         pass
+
+    # menus = Menu.objects.all()
+    # context = {'menus':menus}
+    # if request.method == 'POST':
+    #     return HttpResponse('Success')
+    #     form = MenuForm(request.POST)
+    #     if form.is_valid():
+    #         obj = Menu(name=form.data['name'], Essential_Ingredient=form.data['Essential_Ingredient'], Nonessential_Ingredient=form.data['Nonessential_Ingredient'], link=form.data['link'], tip=form.data['tip'])
+    #         obj.save()
+    #         return HttpResponse('Success')
