@@ -24,8 +24,6 @@
   </head>
 
   <body>
-
-
     <div class = "container">
       <div class = "jumbotron text-center">
           <h2><a href = "{% url 'foodapp:index' %}">DJango Test</a></h1>
@@ -40,7 +38,6 @@
 
       <div class="row">
         <div class="col-md-3" id = 'one'>
-
           {% for menu in menus %}
           <li><a href = test/{{menu.name}}>{{menu.name}}</a></li>
 <!--            <li>{{menu.name}}</li> -->
@@ -57,7 +54,30 @@
           <button class = "btn btn-outline-primary btn-md" value = "Edit" onClick="location.href='http://127.0.0.1:8000/admin/'">Edit</button>
           <button class = "btn btn-outline-primary btn-md" value = "Create" onClick="location.href='{% url 'foodapp:create' %}'">Create</button>
           <hr>
-          <h4>Welcome!
+
+          <div class="col-md-9" id = 'two'>
+            <form action="{% url 'foodapp:create' %}" method="post">
+                <div class="form-group">
+                  <label for="name">Name</label>
+                  <input type="text" class="form-control" id="name" name = 'name'>
+
+                  <label for="Essential_Ingredient">Essential Ingredient</label>
+                  <input type="text" class="form-control" id="Essential_Ingredient" name = 'Essential_Ingredient'>
+
+                  <label for="Nonessential_Ingredient">Nonessential Ingredient</label>
+                  <input type="text" class="form-control" id="Nonessential_Ingredient" name = 'Nonessential_Ingredient'>
+
+                  <label for="link">Link</label>
+                  <input type="text" class="form-control" id="link" name = 'link'>
+
+                  <label for="tip">Tip</label>
+                  <textarea rows = "5" class="form-control" id="tip" name = 'tip'></textarea>
+                </div>
+                <input type="submit" class = "btn btn-outline-primary btn-md" value="Submit" name="submit">
+
+                {% csrf_token %}
+              </form>
+          </div>
         </div>
 
       </div>

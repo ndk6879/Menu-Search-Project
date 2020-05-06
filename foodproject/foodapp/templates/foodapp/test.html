@@ -19,6 +19,7 @@
     .form-inline > .form-control.mr-sm-2 {
       margin: 0;
     }
+
     </style>
   </head>
 
@@ -38,7 +39,7 @@
       <div class="row">
         <div class="col-md-3" id = 'one'>
           {% for menu in menus %}
-            <li>{{menu.name}}</li>
+          <li><a href = {{menu.name}}>{{menu.name}}</a></li>
           {% endfor %}
           {% csrf_token %}
         </div>
@@ -50,33 +51,33 @@
             <button class = "btn btn-outline-primary btn-md" type="submit">Search</button>
           </form>
           <button class = "btn btn-outline-primary btn-md" value = "Edit" onClick="location.href='http://127.0.0.1:8000/admin/'">Edit</button>
-          <button class = "btn btn-outline-primary btn-md" value = "Create" onClick="location.href='http://127.0.0.1:8000/create/'">Create</button>
+          <button class = "btn btn-outline-primary btn-md" value = "Create" onClick="location.href='{% url 'foodapp:create' %}'">Create</button>
           <hr>
+          <h5>{{food}}</h4><br>
+          <div class="col-md-9" id = 'two'>
+            <form action="{% url 'foodapp:create' %}" method="post">
+                <div class="form-group">
 
+                  {% if Essential_Ingredient %}
+                  <h5><div><li>Essential Ingredient: {{Essential_Ingredient}}</div>
+                  {% endif %}
 
-                  <div class="col-md-9" id = 'two'>
-                    <form action="{% url 'foodapp:create' %}" method="post">
-                        <div class="form-group">
-                          <label for="name">Name</label>
-                          <input type="text" class="form-control" id="name" name = 'name'>
+                  {% if nonessential_Ingredients %}
+                  <h5><div><li>Nonessential Ingredient: {{nonessential_Ingredients}}</div>
+                  {% endif %}
 
-                          <label for="Essential_Ingredient">Essential Ingredient</label>
-                          <input type="text" class="form-control" id="Essential_Ingredient" name = 'Essential_Ingredient'>
+                  {% if link %}
+                    <h5><div><li>link: {{link}}</div>
+                  {% endif %}
 
-                          <label for="Nonessential_Ingredient">Nonessential Ingredient</label>
-                          <input type="text" class="form-control" id="Nonessential_Ingredient" name = 'Nonessential_Ingredient'>
+                  {% if tip %}
+                    <h5><div><li>tip: {{tip}}</div>
+                  {% endif %}
 
-                          <label for="link">Link</label>
-                          <input type="text" class="form-control" id="link" name = 'link'>
-
-                          <label for="tip">Tip</label>
-                          <textarea rows = "5" class="form-control" id="tip" name = 'tip'></textarea>
-                        </div>
-                        <input type="submit" class = "btn btn-outline-primary btn-md" value="Submit" name="submit">
-
-                        {% csrf_token %}
-                      </form>
-
+                </div>
+                <input type="submit" class = "btn btn-outline-primary btn-md" value="Submit" name="submit">
+                {% csrf_token %}
+              </form>
         </div>
 
       </div>
