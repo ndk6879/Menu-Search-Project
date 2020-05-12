@@ -43,11 +43,9 @@
 
           {% for menu in menus %}
           <li><a href = test/{{menu.name}}>{{menu.name}}</a></li>
-<!--            <li>{{menu.name}}</li> -->
           {% endfor %}
           {% csrf_token %}
         </div>
-
 
         <div class="col-md-9" id = 'two'>
           <form class="form-inline" action = "{% url 'foodapp:search' %}" autocomplete= "on">
