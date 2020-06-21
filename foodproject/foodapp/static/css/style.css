@@ -1,9 +1,61 @@
+  html {
+    height:100%;
+  }
+
+  * {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 0;
+    font-family: proxima-nova,sans-serif;
+  }
+
   body {
     margin: 0;
     padding: 0;
     font-size: 100%;
+    font-family: proxima-nova,sans-serif;
+    font-size: 14px;
+    /* line-height: 1.42857143; */
+    color: #333;
+    margin: 0 auto;
+    height: 100%;
+    font-family: proxima-nova,sans-serif;
   }
 
+  .FAQ {
+    border-bottom: 1px solid black;
+    text-align: right;
+    padding: 10px;
+  }
+
+  #wrapper {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    text-align: center;
+    min-height: 100%;
+  }
+
+  h1 {
+    font-weight: 20;
+  font-size: 20px;
+  padding-top: 20px;
+
+  margin: 0;
+  padding-top: 2.5px;
+  padding-bottom: 2.5px;
+
+
+  }
+
+  .container {
+    margin, padding: 0;
+  }
+
+  .row > .col-md-3 {
+    padding-left: 15px;
+
+  }
 
   .tt {
     position: relative;
@@ -51,18 +103,18 @@
   padding: 15px;
   }
 
-  h1 {
-      margin: 0;
-      padding-top: 2.5px;
-      padding-bottom: 2.5px;
-  }
-
   h1 > a {
     text-align: right;
   }
   #grid {
       display: grid;
-      grid-template-columns: 250px 1fr;
+      grid-template-columns: 150px 1fr;
+      /* grid-template-rows: 100px 100px; */
+
+  }
+
+  #grid > .second {
+    background: #fafafa;
   }
 
 
@@ -117,4 +169,8 @@
 
   li {
     border-right: 40px;
+  }
+
+  #col-md-9 {
+    margin, padding: 0px;
   }

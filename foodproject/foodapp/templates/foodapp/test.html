@@ -9,6 +9,17 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <style>
+    html, body {
+      height:100%;
+      width: 80% auto;
+    }
+
+    h1 {
+      font-weight: 20;
+      font-size: 20px;
+      padding-top: 20px;
+    }
+
     .form-inline {
       display: inline;
     }
@@ -27,13 +38,6 @@
     <div class = "container">
       <div class = "jumbotron text-center">
           <h2><a href = "{% url 'foodapp:index' %}">DJango Test</a></h1>
-          <!--
-          <form action = "{% url 'foodapp:search' %}" autocomplete= "on" method = 'method'>
-          {% csrf_token %}
-          <input type = "text" name = "practice_ingredient">
-          <a href = "http://127.0.0.1:8000/admin/"><input type = "button" value = "Edit"></a>
-          <a href = "{%url 'foodapp:create' %}"><input type = "button" value = "Create"></a>
-          -->
       </div>
 
       <div class="row">
@@ -44,46 +48,41 @@
           {% csrf_token %}
         </div>
 
-
         <div class="col-md-9" id = 'two'>
           <form class="form-inline" action = "{% url 'foodapp:search' %}" autocomplete= "on">
-            <input class="form-control mr-sm-2" type="search" name = "practice_ingredient" placeholder="Search" aria-label="Search">
+            <input class="form-control mr-sm-2" type="search" name = "food" placeholder="Search" aria-label="Search">
             <button class = "btn btn-outline-primary btn-md" type="submit">Search</button>
           </form>
           <button class = "btn btn-outline-primary btn-md" value = "Edit" onClick="location.href='http://127.0.0.1:8000/admin/'">Edit</button>
           <button class = "btn btn-outline-primary btn-md" value = "Create" onClick="location.href='{% url 'foodapp:create' %}'">Create</button>
           <hr>
+
           <h5>{{food}}</h4><br>
-          <div class="col-md-9" id = 'two'>
-            <form action="{% url 'foodapp:create' %}" method="post">
-                <div class="form-group">
+          <div class = 'test'>
+            {% if Essential_Ingredient %}
+              <div><h5><li>Essential Ingredient: {{Essential_Ingredient}}</div><br>
+            {% endif %}
 
-                  {% if Essential_Ingredient %}
-                  <h5><div><li>Essential Ingredient: {{Essential_Ingredient}}</div>
-                  {% endif %}
+            {% if nonessential_Ingredients %}
+              <div><h5><li>Nonessential Ingredient: {{nonessential_Ingredients}}</div><br>
+            {% endif %}
 
-                  {% if nonessential_Ingredients %}
-                  <h5><div><li>Nonessential Ingredient: {{nonessential_Ingredients}}</div>
-                  {% endif %}
+            {% if link %}
+              <div><h5><li>Link: {{link}}</div><br>
+            {% endif %}
 
-                  {% if link %}
-                    <h5><div><li>link: {{link}}</div>
-                  {% endif %}
+            {% if tip %}
+              <div><h5><li>tip: {{tip}}</div><br>
+            {% endif %}
+            {% csrf_token %}
+            <iframe width="350" height="350" src="{{link}}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-                  {% if tip %}
-                    <h5><div><li>tip: {{tip}}</div>
-                  {% endif %}
-
-                </div>
-                <input type="submit" class = "btn btn-outline-primary btn-md" value="Submit" name="submit">
-                {% csrf_token %}
-              </form>
+          </div>
+          <!-- <iframe width="800" height="400" src="https://www.youtube.com/embed/AqCvYLcnVu0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
         </div>
-
       </div>
       <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
       <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
       <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-    </div>
   </body>
 </html>

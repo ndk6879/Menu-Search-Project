@@ -19,28 +19,17 @@
     .form-inline > .form-control.mr-sm-2 {
       margin: 0;
     }
-
     </style>
   </head>
 
   <body>
-
-
     <div class = "container">
       <div class = "jumbotron text-center">
           <h2><a href = "{% url 'foodapp:index' %}">DJango Test</a></h1>
-          <!--
-          <form action = "{% url 'foodapp:search' %}" autocomplete= "on" method = 'method'>
-          {% csrf_token %}
-          <input type = "text" name = "practice_ingredient">
-          <a href = "http://127.0.0.1:8000/admin/"><input type = "button" value = "Edit"></a>
-          <a href = "{%url 'foodapp:create' %}"><input type = "button" value = "Create"></a>
-          -->
       </div>
 
       <div class="row">
         <div class="col-md-3" id = 'one'>
-
           {% for menu in menus %}
           <li><a href = test/{{menu.name}}>{{menu.name}}</a></li>
           {% endfor %}
@@ -49,19 +38,19 @@
 
         <div class="col-md-9" id = 'two'>
           <form class="form-inline" action = "{% url 'foodapp:search' %}" autocomplete= "on">
-            <input class="form-control mr-sm-2" type="search" name = "practice_ingredient" placeholder="Search" aria-label="Search">
+            <input class="form-control mr-sm-2" type="search" name = "food" placeholder="Search" aria-label="Search">
             <button class = "btn btn-outline-primary btn-md" type="submit">Search</button>
           </form>
           <button class = "btn btn-outline-primary btn-md" value = "Edit" onClick="location.href='http://127.0.0.1:8000/admin/'">Edit</button>
           <button class = "btn btn-outline-primary btn-md" value = "Create" onClick="location.href='{% url 'foodapp:create' %}'">Create</button>
           <hr>
-          <h4>Welcome!
+          <h4>Welcome!</h4>
+          {{nonessential_ingredients_list}}
         </div>
-
       </div>
       <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
       <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
       <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-    </div>
+    <!-- </div> -->
   </body>
 </html>
