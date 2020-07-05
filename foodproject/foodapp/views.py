@@ -7,30 +7,29 @@ import cgi
 from django.urls import reverse
 from .forms import MenuForm
 
-# nav var PP
-# 양념들 어떻게 할지 -> model에서 non-essneitals재료 추가.PP
+
+
+#ETC part
+# 해본 음식은 색깔 바꾸게 하기. -> JS
+# search keywords by tag key
+# 모든 메뉴(All menu), 집밥 메뉴(home cook), 분위기 메뉴(Mood), 올킬 메뉴(Clearance)
+# 배포
 
 # 재료 입력 (고기 or 돼지고기)-> 동일검색결과. +면도 되게 하기. OK
 # views.refactoring *띄어쓰기 상관없이 같은결과. OK
 # db구현화(name클릭하면 필드 나오기) OK
 # 나의 review & 댓글,후기, Q&A OK
 # 이름 오류 바꾸기 OK
+# 2가지 이상 재료 검색 & 검색창 설정하기 OK
+# url field만들기 OK
+# 없으면 출력 안시키기 OK
+# CSS 꾸미기 (index.page, create page) OK
+# db name 순서대로 OL
 
-# 2가지 이상 재료 검색 & 검색창 설정하기 O
-# url field만들기 O
-# 없으면 출력 안시키기 O
-# CSS 꾸미기 (index.page, create page) O
-# db name 순서대로 O
+# nav var PP
+# 양념들 어떻게 할지 -> model에서 non-essneitals재료 추가.PP
 
-# 해본 음식은 색깔 바꾸게 하기. -> JS
-# search keywords by tag key
-# 모든 메뉴(All menu), 집밥 메뉴(home cook), 분위기 메뉴(Mood), 올킬 메뉴(Clearance)
-# 배포
-# 몇몇 데이터는 Page Not Found 뜨는데 시크릿 모드에서는 잘됨..
 
-# 1. Make Not Done button
-# 2. Once clicked, change color and change db as Done
-# 3. For Done in db, colors are changed.
 
 '''
 고기 없을 때:
@@ -93,12 +92,14 @@ def search(request):
     names = list(Menu.objects.values_list('name', flat=True)) #모델에 있는 메뉴 #flat을 사용하면 tuple말고 리스트 형태로 가져올 수 있다.
     ingredients = list(Menu.objects.values_list('Essential_Ingredient', flat=True)) #모델에 있는 메뉴 재료
 
-
-    meat_including_menus = (Menu.objects.filter(Essential_Ingredient__contains='베이컨')|Menu.objects.filter(Essential_Ingredient__contains='다진 돼지고기')|Menu.objects.filter(Essential_Ingredient__contains='고기')|Menu.objects.filter(Essential_Ingredient__contains='소고기')|Menu.objects.filter(Essential_Ingredient__contains='목살')|Menu.objects.filter(Essential_Ingredient__contains='대패삼겹살')|Menu.objects.filter(Essential_Ingredient__contains='양념돼지갈비')|Menu.objects.filter(Essential_Ingredient__contains='닭 다리살'))
-    meat_including_menus_names = meat_including_menus.values_list('name',flat=True)
-    meat_including_menus_ingredients = meat_including_menus.values_list('Essential_Ingredient',flat=True)
-    meat_including_menus_names_list = list(meat_including_menus_names)
-    meat_including_menus_ingredients_list = list(meat_including_menus_ingredients)
+    meat_including_menus = ((Menu.objects.filter(Essential_Ingredient__contains='베이컨')|Menu.objects.filter(Essential_Ingredient__contains='다진 돼지고기')
+    |Menu.objects.filter(Essential_Ingredient__contains='고기')|Menu.objects.filter(Essential_Ingredient__contains='소고기')
+    |Menu.objects.filter(Essential_Ingredient__contains='목살')|Menu.objects.filter(Essential_Ingredient__contains='대패삼겹살')
+    |Menu.objects.filter(Essential_Ingredient__contains='앞다리살')|Menu.objects.filter(Essential_Ingredient__contains='양념돼지갈비')
+    |Menu.objects.filter(Essential_Ingredient__contains='닭 다리살')))
+    # <QuerySet [<Menu: 까르보나라>, <Menu: 마파두부>, <Menu: 불고기파스타>, <Menu: 카레목살스테이크>, <Menu: 불맛짬뽕라면>, <Menu: 대패두루치기>, <Menu: 시금치베이컨볶음>, <Menu: 스튜>, <Menu: 춘천닭갈비>, <Menu: 새둥지전>, <Menu: 순두부찌개>, <Menu: 부추고기비빔면>, <Menu: 폭찹스테이크>, <Menu: 우동볶음>, <Menu: 하이라이스>, <Menu: 밀푀유나베>]>
+    meat_including_menus_names = list(meat_including_menus.values_list('name',flat=True))
+    meat_including_menus_ingredients = list(meat_including_menus.values_list('Essential_Ingredient',flat=True))
 
     input = request.GET.get('food')
     split_my_input = input.split(', ') #밥, 마늘 -> ['밥', '마늘']
@@ -108,16 +109,13 @@ def search(request):
     menu_one, menu_two, menu_three, menu_four, menu_ETC = [], [], [], [], []
     menu_one_ingredient, menu_two_ingredient, menu_three_ingredient, menu_four_ingredient, ETC_ingredient = [], [], [], [], []
 
-    menu_list = ''
-    ingredients_of_menu_list = ''
+    menu_list = (names) #['계란볶음밥', '까르보나라', '양파덮밥', '알리오올리오', '마파두부', '불고기파스타']
+    ingredients_of_menu_list = ingredient_list #['대파, 계란, 밥', '면, 마늘, 베이컨, 파마산치즈', '양파,계란', '마늘, 면, 파마산치즈', '대파, 다진 돼지고기, 두부']
     new_ingredients_of_menu_list = []
-    if '고기' not in input:
-        menu_list = (names) # [['대파', '계란', '밥'], ['면', '마늘', '베이컨', '파마산치즈'], ['양파', '계란', '밥'],
-        ingredients_of_menu_list = ingredient_list #['대파, 계란, 밥', '면, 마늘, 베이컨, 파마산치즈', '양파,계란', '마늘, 면, 파마산치즈', '대파, 다진 돼지고기, 두부']
 
-    elif '고기' in input:
-        menu_list = meat_including_menus_names_list
-        ingredients_of_menu_list = meat_including_menus_ingredients_list
+    if '고기' in input:
+        menu_list = (meat_including_menus_names)
+        ingredients_of_menu_list = meat_including_menus_ingredients
         for i in ingredients_of_menu_list:
             new_ingredients_of_menu_list.append(i.split(','))
         ingredients_of_menu_list = new_ingredients_of_menu_list
@@ -125,92 +123,74 @@ def search(request):
 
     i = 0
     while (i < len(menu_list)):
-        if '고기' not in split_my_input:
-            for input1 in split_my_input: #대파
-                q = 0
-                while(q < len(ingredients_of_menu_list[i])):
-                    if (ingredients_of_menu_list[i])[q].startswith(' '):
-                        (ingredients_of_menu_list[i])[q] = (ingredients_of_menu_list[i])[q][1:]
+        for input1 in split_my_input: #대파
+            q = 0
+            while(q < len(ingredients_of_menu_list[i])):
+                if (ingredients_of_menu_list[i])[q].startswith(' '):
+                    (ingredients_of_menu_list[i])[q] = (ingredients_of_menu_list[i])[q][1:]
 
-                    if input1 == (ingredients_of_menu_list[i])[q]: #ingredients_of_menu_list[i]) == '밥, 대파, 계란'임. Not ['밥, 대파, 계란']
-                        save_my_input.append(input1)
+                if len(split_my_input) == 1 and (input1 == '고기' or input1 == (ingredients_of_menu_list[i])[q]):
+                        if len(ingredients_of_menu_list[i]) == 1:
+                            menu_one.append(menu_list[i])
+                            menu_one_ingredient.append(', '.join(sorted(ingredients_of_menu_list[i])))
 
-                        if len(split_my_input) == len(save_my_input):
-                            # save_my_menu.append(menu_list[i])
-                            if len(ingredients_of_menu_list[i]) == 1:
-                                menu_one.append(menu_list[i])
-                                menu_one_ingredient.append(', '.join(sorted(ingredients_of_menu_list[i])))
+                        elif len(ingredients_of_menu_list[i]) == 2:
+                            menu_two.append(menu_list[i])
+                            menu_two_ingredient.append(', '.join(sorted(ingredients_of_menu_list[i])))
 
-                            elif len(ingredients_of_menu_list[i]) == 2:
-                                menu_two.append(menu_list[i])
-                                menu_two_ingredient.append(', '.join(sorted(ingredients_of_menu_list[i])))
+                        elif len(ingredients_of_menu_list[i]) == 3:
+                            menu_three.append(menu_list[i])
+                            menu_three_ingredient.append(', '.join(sorted(ingredients_of_menu_list[i])))
 
-                            elif len(ingredients_of_menu_list[i]) == 3:
-                                menu_three.append(menu_list[i])
-                                menu_three_ingredient.append(', '.join(sorted(ingredients_of_menu_list[i])))
+                        elif len(ingredients_of_menu_list[i]) > 3:
+                            menu_four.append((menu_list[i]))
+                            menu_four_ingredient.append(', '.join(sorted(ingredients_of_menu_list[i])))
 
-                            elif len(ingredients_of_menu_list[i]) > 3:
-                                menu_four.append((menu_list[i]))
-                                menu_four_ingredient.append(', '.join(sorted(ingredients_of_menu_list[i])))
+            
 
-                    # elif (nonessential_ingredients_list[i]) and input1 == (nonessential_ingredients_list[i])[q]:
-                    #     menu_ETC.append(menu_list[i])
+                elif '고기' in split_my_input and len(split_my_input) > 1 and input1 == (ingredients_of_menu_list[i])[q] and input1 != '고기':
+                    save_my_input.append(input1)
+                    if len(split_my_input) - 1 == len(save_my_input):
+                        if len(ingredients_of_menu_list[i]) == 1:
+                            menu_one.append(menu_list[i])
+                            menu_one_ingredient.append(', '.join(sorted(ingredients_of_menu_list[i])))
 
-                    q = q + 1
+                        elif len(ingredients_of_menu_list[i]) == 2:
+                            menu_two.append(menu_list[i])
+                            menu_two_ingredient.append(', '.join(sorted(ingredients_of_menu_list[i])))
 
-            save_my_input = []
-            i = i + 1
+                        elif len(ingredients_of_menu_list[i]) == 3:
+                            menu_three.append(menu_list[i])
+                            menu_three_ingredient.append(', '.join(sorted(ingredients_of_menu_list[i])))
 
-        elif '고기' in split_my_input:
-            for input2 in split_my_input: #대파
-                q = 0
-                while(q < len(ingredients_of_menu_list[i])):
-                    if (ingredients_of_menu_list[i])[q].startswith(' '):
-                        (ingredients_of_menu_list[i])[q] = (ingredients_of_menu_list[i])[q][1:]
+                        elif len(ingredients_of_menu_list[i]) > 3:
+                            menu_four.append((menu_list[i]))
+                            menu_four_ingredient.append(', '.join(sorted(ingredients_of_menu_list[i])))
 
-                    if len(split_my_input) == 1 and (input2 == '고기' or input2 == (ingredients_of_menu_list[i])[q]):
-                            if len(ingredients_of_menu_list[i]) == 1:
-                                menu_one.append(menu_list[i])
-                                menu_one_ingredient.append(', '.join(sorted(ingredients_of_menu_list[i])))
 
-                            elif len(ingredients_of_menu_list[i]) == 2:
-                                menu_two.append(menu_list[i])
-                                menu_two_ingredient.append(', '.join(sorted(ingredients_of_menu_list[i])))
+                elif input1 == (ingredients_of_menu_list[i])[q]: #ingredients_of_menu_list[i]) == '밥, 대파, 계란'임. Not ['밥, 대파, 계란']
+                    save_my_input.append(input1)
 
-                            elif len(ingredients_of_menu_list[i]) == 3:
-                                menu_three.append(menu_list[i])
-                                menu_three_ingredient.append(', '.join(sorted(ingredients_of_menu_list[i])))
+                    if len(split_my_input) == len(save_my_input):
+                        # save_my_menu.append(menu_list[i])
+                        if len(ingredients_of_menu_list[i]) == 1:
+                            menu_one.append(menu_list[i])
+                            menu_one_ingredient.append(', '.join(sorted(ingredients_of_menu_list[i])))
 
-                            elif len(ingredients_of_menu_list[i]) > 3:
-                                menu_four.append((menu_list[i]))
-                                menu_four_ingredient.append(', '.join(sorted(ingredients_of_menu_list[i])))
+                        elif len(ingredients_of_menu_list[i]) == 2:
+                            menu_two.append(menu_list[i])
+                            menu_two_ingredient.append(', '.join(sorted(ingredients_of_menu_list[i])))
 
-                    # elif len(split_my_input) > 1 and input2 == '고기':
-                    #     continue
+                        elif len(ingredients_of_menu_list[i]) == 3:
+                            menu_three.append(menu_list[i])
+                            menu_three_ingredient.append(', '.join(sorted(ingredients_of_menu_list[i])))
 
-                    elif len(split_my_input) > 1 and input2 == (ingredients_of_menu_list[i])[q]:
-                        save_my_input.append(input2)
-                        if len(split_my_input) - 1 == len(save_my_input):
-                            if len(ingredients_of_menu_list[i]) == 1:
-                                menu_one.append(menu_list[i])
-                                menu_one_ingredient.append(', '.join(sorted(ingredients_of_menu_list[i])))
-
-                            elif len(ingredients_of_menu_list[i]) == 2:
-                                menu_two.append(menu_list[i])
-                                menu_two_ingredient.append(', '.join(sorted(ingredients_of_menu_list[i])))
-
-                            elif len(ingredients_of_menu_list[i]) == 3:
-                                menu_three.append(menu_list[i])
-                                menu_three_ingredient.append(', '.join(sorted(ingredients_of_menu_list[i])))
-
-                            elif len(ingredients_of_menu_list[i]) > 3:
-                                menu_four.append((menu_list[i]))
-                                menu_four_ingredient.append(', '.join(sorted(ingredients_of_menu_list[i])))
-
-                    q = q + 1
-
-            save_my_input = []
-            i = i + 1
+                        elif len(ingredients_of_menu_list[i]) > 3:
+                            menu_four.append((menu_list[i]))
+                            menu_four_ingredient.append(', '.join(sorted(ingredients_of_menu_list[i])))
+                q = q + 1
+        save_my_input = []
+        i = i + 1
 
     len_try_a, len_try_b, len_try_c, len_try_d = len(menu_one), len(menu_two), len(menu_three), len(menu_four)
     menu_set1, menu_set2, menu_set3, menu_set4 = {}, {}, {}, {}
@@ -232,7 +212,7 @@ def search(request):
             menu_set4[menu_four[qq]] = (menu_four_ingredient[qq])
 
 
-    context = {'menu_ETC':menu_ETC, 'ETC_ingredient':ETC_ingredient,
+    context = {'menu_ETC':menu_ETC, 'ETC_ingredient':ETC_ingredient, 'meat_including_menus_names' : meat_including_menus_names,
     'input' : input, 'menus' : menus, 'meat_including_menus' : meat_including_menus,
     'menu_one' : menu_one, 'menu_two' : menu_two, 'menu_three' : menu_three, 'menu_four' : menu_four,
     'menu_one_ingredient' : menu_one_ingredient, 'menu_two_ingredient' : menu_two_ingredient, 'menu_three_ingredient' : menu_three_ingredient, 'menu_four_ingredient' :menu_four_ingredient,

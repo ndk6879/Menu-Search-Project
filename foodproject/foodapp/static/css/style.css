@@ -143,8 +143,8 @@
   }
 
   li{
-    padding-left: 10px;
-    padding-bottom: 7.5px;
+    padding: 10px;
+    padding-left: 0;
     color: #007bff;;
   }
 

@@ -45,7 +45,7 @@
           <button class = "btn btn-outline-primary btn-md" value = "Edit" onClick="location.href='http://127.0.0.1:8000/admin/'">Edit</button>
           <button class = "btn btn-outline-primary btn-md" value = "Create" onClick="location.href='{% url 'foodapp:create' %}'">Create</button>
           <hr>
-          <span>
+          <!-- <span> -->
               {% if len_try_a != 0%}
                 <h2>Only {{input}}</h2>
                 {% for key1, value1 in menu_set1.items %}
@@ -106,10 +106,7 @@
                 {% endfor %}
               {% endif %}<br>
               <!-- {{menu_ETC}} -->
-
-
-
-          </span>
+          <!-- </span> -->
         </div>
       </div>
       <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
