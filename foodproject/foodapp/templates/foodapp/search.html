@@ -19,6 +19,19 @@
     .form-inline > .form-control.mr-sm-2 {
       margin: 0;
     }
+    #two > #video {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      text-align: center;
+    }
+
+    #video > div {
+      padding: 10px;
+    }
+
+    #block {
+      min-width: 300px;
+    }
     </style>
   </head>
 
@@ -45,77 +58,87 @@
           <button class = "btn btn-outline-primary btn-md" value = "Edit" onClick="location.href='http://127.0.0.1:8000/admin/'">Edit</button>
           <button class = "btn btn-outline-primary btn-md" value = "Create" onClick="location.href='{% url 'foodapp:create' %}'">Create</button>
           <hr>
-          <!-- <span> -->
-              {% if len_try_a != 0%}
-                <h2>Only {{input}}</h2>
-                {% for key1, value1 in menu_set1.items %}
-                  {% for menu in menus %}
-                    {% if menu.name == key1 %}
-                      {% if menu.link == None%}
-                        <li>{{key1}} - {{value1}}</a></li>
-                      {% else %}
-                        <li><a href = test/{{menu.name}}> {{key1}}</a> - {{value1}}</li>
-                      {% endif %}
+          menu_one: {{menu_one}}<br><br>
+          menu_two: {{menu_two}}<br><br>
+          menu_three: {{menu_three}}<br><br>
+          menu_four: {{menu_four}}<br><br>
+          <div id = "video">
+            {% if menu_one %}
+              <p><h2>Only {{input}}</h2></p>
+              {% for menu in menus %}
+                {%for menu_one_name in menu_one %}
+                  {% if menu.name == menu_one_name %}
+                    {% if menu.link %}
+                      <div>
+                        <li><a href = test/{{menu.name}}>{{menu.name}}</a></li>
+                        {{menu.Essential_Ingredient}}
+                        <iframe width="250" height="250" src="{{menu.link}}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></i290me>
+                      </div>
                     {% endif %}
-                  {% endfor %}
+                  {% endif %}
                 {% endfor %}
-              {% endif %}<br>
+              {% endfor %}
+            {% endif %}
+            </div>
 
-              {% if len_try_b != 0 %}
-                <h2>{{input}} + 1</h2>
-                {% for key2, value2 in menu_set2.items %}
-                  {% for menu in menus %}
-                    {% if menu.name == key2 %}
-                      {% if menu.link == None%}
-                        <li>{{key2}} - {{value2}}</a></li>
-                      {% else %}
-                        <li><a href = test/{{menu.name}}> {{key2}}</a> - {{value2}}</li>
+            <div id = "video">
+              {% if menu_two %}
+                <p><h2>{{input}} + 1</h2></p>
+                {% for menu in menus %}
+                  {%for menu_two_name in menu_two %}
+                    {% if menu.name == menu_two_name %}
+                      {% if menu.link %}
+                        <div>
+                          <li><a href = test/{{menu.name}}>{{menu.name}}</a></li>
+                          {{menu.Essential_Ingredient}}
+                          <iframe width="250" height="250" src="{{menu.link}}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></i290me>
+                        </div>
                       {% endif %}
                     {% endif %}
                   {% endfor %}
                 {% endfor %}
-              {% endif %}<br>
+              {% endif %}
+            </div>
 
-              {% if len_try_c != 0 %}
-                <h2>{{input}} + 2</h2>
-                {% for key3, value3 in menu_set3.items %}
-                  {% for menu in menus %}
-                    {% if menu.name == key3 %}
-                      {% if menu.link == None%}
-                        <li>{{key3}} - {{value3}}</a></li>
-                      {% else %}
-                        <li><a href = test/{{menu.name}}> {{key3}}</a> - {{value3}}</li>
+            <div id = "video">
+              {% if menu_three %}
+                <p><h2>{{input}} + 2</h2></p>
+                {% for menu in menus %}
+                  {%for menu_three_name in menu_three %}
+                    {% if menu.name == menu_three_name %}
+                      {% if menu.link %}
+                        <div>
+                          <li><a href = test/{{menu.name}}>{{menu.name}}</a></li>
+                          {{menu.Essential_Ingredient}}
+                          <iframe width="250" height="250" src="{{menu.link}}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
                       {% endif %}
                     {% endif %}
                   {% endfor %}
                 {% endfor %}
-              {% endif %}<br>
+              {% endif %}
+            </div>
 
-              {% if len_try_d  %}
-                <h2>{{input}} + α</h2>
-                {% for key4, value4 in menu_set4.items %}
-                  {% for menu in menus %}
-                    {% if menu.name == key4 %}
-                      {% if menu.link == None%}
-                        <li>{{key4}} - {{value4}}</a></li>
-                      {% else %}
-                        <li><a href = test/{{menu.name}}> {{key4}}</a> - {{value4}}</li>
+            <div id = "video">
+              {% if menu_four %}
+                <p><h2>{{input}} + α</h2></p>
+                {% for menu in menus %}
+                  {%for menu_four_name in menu_four %}
+                    {% if menu.name == menu_four_name %}
+                      {% if menu.link %}
+                        <div>
+                          <li><a href = test/{{menu.name}}>{{menu.name}}</a></li>
+                          <span id = "block">{{menu.Essential_Ingredient}}</span>
+                          <iframe width="250" height="250" src="{{menu.link}}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
                       {% endif %}
                     {% endif %}
                   {% endfor %}
                 {% endfor %}
-              {% endif %}<br>
-              menu_list: {{menu_list}}<br><br>
-              ingredients_of_menu_list: {{ingredients_of_menu_list}}<br><br>
-              <!-- names: {{names}}<br><br>
-              noodle_including_menus_names: {{noodle_including_menus_names}}<br><br>
-              noodle_including_menus_ingredients: {{noodle_including_menus_ingredients}}<br><br>
-              meat_including_menus_names: {{meat_including_menus_names}}<br><br>
-              meat_including_menus_ingredients: {{meat_including_menus_ingredients}}<br><br>
-              ingredients: {{ingredients}}<br><br>
-              ingredient_list: {{ingredient_list}} -->
-              <!-- {{menu_ETC}} -->
-          <!-- </span> -->
+              {% endif %}
+            </div>
+
+<br><br>
         </div>
       </div>
       <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
