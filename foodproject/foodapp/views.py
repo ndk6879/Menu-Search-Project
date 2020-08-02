@@ -28,6 +28,7 @@ from .forms import MenuForm
 
 # nav var PP
 # 양념들 어떻게 할지 -> model에서 non-essneitals재료 추가.PP
+
 def test(request, food):
     menus = Menu.objects.all().order_by('name')
     food = Menu.objects.all().get(name=food)
@@ -58,7 +59,7 @@ def search(request):
     |Menu.objects.filter(Essential_Ingredient__contains='고기')|Menu.objects.filter(Essential_Ingredient__contains='소고기')
     |Menu.objects.filter(Essential_Ingredient__contains='목살')|Menu.objects.filter(Essential_Ingredient__contains='대패삼겹살')
     |Menu.objects.filter(Essential_Ingredient__contains='앞다리살')|Menu.objects.filter(Essential_Ingredient__contains='양념돼지갈비')
-    |Menu.objects.filter(Essential_Ingredient__contains='닭 다리살')))
+    |Menu.objects.filter(Essential_Ingredient__contains='닭다리살')))
 
     noodle_including_menus = ((Menu.objects.filter(Essential_Ingredient__contains='면')|Menu.objects.filter(Essential_Ingredient__contains='쫄면')
     |Menu.objects.filter(Essential_Ingredient__contains='라면')|Menu.objects.filter(Essential_Ingredient__contains='우동')
@@ -110,48 +111,43 @@ def search(request):
 
                 q = q + 1
 
-        length_variable = len(save_my_input) #면, 마늘
-        for q in category_menu: #고기, 면
+        length_variable = len(save_my_input)
+        for q in category_menu:
             if q in split_my_input:
                 length_variable = length_variable + 1
 
         if len(split_my_input) == length_variable:
-            if len(ingredients_of_menu_list[i].split(', ')) == 1:
+            if len(ingredients_of_menu_list[i].split(', ')) == 1 and Menu.objects.values_list('link', flat=True).get(name=menu_list[i]):
                 menu_one.append(menu_list[i])
                 menu_one_ingredient.append(ingredients_of_menu_list[i])
 
-            elif len(ingredients_of_menu_list[i].split(', ')) == 2:
+            elif len(ingredients_of_menu_list[i].split(', ')) == 2 and Menu.objects.values_list('link', flat=True).get(name=menu_list[i]):
                 menu_two.append(menu_list[i])
                 menu_two_ingredient.append(ingredients_of_menu_list[i])
 
-            elif len(ingredients_of_menu_list[i].split(', ')) == 3:
+            elif len(ingredients_of_menu_list[i].split(', ')) == 3 and Menu.objects.values_list('link', flat=True).get(name=menu_list[i]):
                 menu_three.append(menu_list[i])
                 menu_three_ingredient.append(ingredients_of_menu_list[i])
 
-            elif len(ingredients_of_menu_list[i].split(', ')) > 3:
+            elif len(ingredients_of_menu_list[i].split(', ')) > 3 and Menu.objects.values_list('link', flat=True).get(name=menu_list[i]):
                 menu_four.append((menu_list[i]))
                 menu_four_ingredient.append(ingredients_of_menu_list[i])
 
         save_my_input = []
         i = i + 1
 
-    menu_one_zipper = ''
-    menu_two_zipper = ''
-    menu_three_zipper = ''
-    menu_four_zipper = ''
-    links = list(Menu.objects.values_list('link', flat=True)) #모델에 있는 메뉴 재료
+    link_for_one = [menu.link for x in (menu_one) for menu in menus if x == menu.name and menu.link and menu.link != '']
+    link_for_two = [menu.link for x in (menu_two) for menu in menus if x == menu.name and menu.link and menu.link != '']
+    link_for_three = [menu.link for x in (menu_three) for menu in menus if x == menu.name and menu.link and menu.link != '']
+    link_for_four = [menu.link for x in (menu_four) for menu in menus if x == menu.name and menu.link and menu.link != '']
 
-    link_for_one = [menu.link for menu in menus for x in menu_one if menu.name == x]
-    link_for_two = [menu.link for menu in menus for x in menu_two if menu.name == x]
-    link_for_three = [menu.link for menu in menus for x in menu_three if menu.name == x]
-    link_for_four = [menu.link for menu in menus for x in menu_four if menu.name == x]
-
-    if menu_one: menu_one_zipper = list(zip(menu_one, [x for x in menu_one_ingredient], link_for_one))
-    if menu_two: menu_two_zipper = list(zip(menu_two, [x for x in menu_two_ingredient], link_for_two))
-    if menu_three: menu_three_zipper = list(zip(menu_three, [x for x in menu_three_ingredient], link_for_three))
-    if menu_four: menu_four_zipper = list(zip(menu_four, [x for x in menu_four_ingredient], link_for_four))
+    menu_one_zipper = list(zip(menu_one, menu_one_ingredient, link_for_one))
+    menu_two_zipper = list(zip(menu_two, menu_two_ingredient, link_for_two))
+    menu_three_zipper = list(zip(menu_three, menu_three_ingredient, link_for_three))
+    menu_four_zipper = list(zip(menu_four, menu_four_ingredient, link_for_four))
 
     context = {
+    'link_for_one': link_for_one, 'link_for_two': link_for_two, 'link_for_three':link_for_three, 'link_for_four':link_for_four,
     'menu_one_zipper':menu_one_zipper, 'menu_two_zipper':menu_two_zipper,'menu_three_zipper':menu_three_zipper,'menu_four_zipper':menu_four_zipper,
     'ingredients_of_menu_list':ingredients_of_menu_list, 'menu_list':menu_list,
     'ingredients' :ingredients, 'meat_including_menus_ingredients':meat_including_menus_ingredients,

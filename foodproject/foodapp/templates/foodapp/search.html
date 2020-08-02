@@ -9,16 +9,11 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <style>
-    .form-inline {
-      display: inline;
-    }
-    .form-inline > input {
-      margin: 8px;
-    }
 
-    .form-inline > .form-control.mr-sm-2 {
-      margin: 0;
-    }
+    .form-inline {display: inline;}
+    .form-inline > input {margin: 8px;}
+    .form-inline > .form-control.mr-sm-2 {margin: 0;}
+
     #two > #video {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
@@ -29,20 +24,38 @@
       padding: 10px;
     }
 
+    #explanation {
+      margin: 0;
+      background-color: #fafafa;
+      text-align: left;
+      padding: 0px;
+    }
+
+    #explanation > li {
+      padding-left: 10px;
+      list-style-type: none;
+
+    }
+
+
+    /* #each_video {
+      padding: 0;
+    } */
+/*
     #block {
       min-width: 300px;
-    }
+    } */
     </style>
   </head>
 
   <body>
     <div class = "container">
-      <div class = "jumbotron text-center">
+      <div class = "jumbotron text-center" style = "background-color: #fafafa;">
           <h2><a href = "{% url 'foodapp:index' %}">DJango Test</a></h1>
       </div>
 
       <div class="row">
-        <div class="col-md-3" id = 'one'>
+        <div id = 'one' class="col-md-3">
           {% for menu in menus %}
           <li><a href = test/{{menu.name}}>{{menu.name}}</a></li>
           {% endfor %}
@@ -50,7 +63,7 @@
         </div>
         <hr>
 
-        <div class="col-md-9" id = 'two'>
+        <div id = 'two' class= "col-md-9">
           <form class="form-inline" action = "{% url 'foodapp:search' %}" autocomplete= "on">
             <input class="form-control mr-sm-2" type="search" name = "food" placeholder="Search" aria-label="Search">
             <button class = "btn btn-outline-primary btn-md" type="submit">Search</button>
@@ -58,85 +71,88 @@
           <button class = "btn btn-outline-primary btn-md" value = "Edit" onClick="location.href='http://127.0.0.1:8000/admin/'">Edit</button>
           <button class = "btn btn-outline-primary btn-md" value = "Create" onClick="location.href='{% url 'foodapp:create' %}'">Create</button>
           <hr>
-          menu_one: {{menu_one}}<br><br>
+          <!-- menu_one: {{menu_one}}<br><br>
           menu_two: {{menu_two}}<br><br>
           menu_three: {{menu_three}}<br><br>
           menu_four: {{menu_four}}<br><br>
+          link_for_one: {{link_for_one}}<br><br>
+          link_for_two: {{link_for_two}}<br><br>
+          link_for_three: {{link_for_three}}<br><br>
+          link_for_four: {{link_for_four}}<br><br>
+          xiab: {{xiab}}
+          -->
+
+          <!-- menu_one_zipper: {{menu_one_zipper}}<br><br>
+          menu_two_zipper: {{menu_two_zipper}}<br><br>
+          menu_three_zipper: {{menu_three_zipper}}<br><br>
+          menu_four_zipper: {{menu_four_zipper}}<br><br> -->
+
           <div id = "video">
             {% if menu_one %}
               <p><h2>Only {{input}}</h2></p>
-              {% for menu in menus %}
-                {%for menu_one_name in menu_one %}
-                  {% if menu.name == menu_one_name %}
-                    {% if menu.link %}
-                      <div>
-                        <li><a href = test/{{menu.name}}>{{menu.name}}</a></li>
-                        {{menu.Essential_Ingredient}}
-                        <iframe width="250" height="250" src="{{menu.link}}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></i290me>
-                      </div>
-                    {% endif %}
-                  {% endif %}
-                {% endfor %}
+              {% for name, ingredient, link in menu_one_zipper %}
+                <div id = "each_video">
+                    <iframe width="250" height="250" src="{{link}}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    <div id = "explanation" class = "jumbotron">
+                        <li><a href = test/{{name}}>{{name}}</a></li>
+                        <div style = "padding: 10px;">{{ingredient}}</div>
+                    </div>
+                </div>
               {% endfor %}
             {% endif %}
-            </div>
+          </div>
+          <br><br>
+<!-- if menu_one
+  if link:
+    Title & menu.name & menu.Essential_Ingredient -->
 
             <div id = "video">
               {% if menu_two %}
-                <p><h2>{{input}} + 1</h2></p>
-                {% for menu in menus %}
-                  {%for menu_two_name in menu_two %}
-                    {% if menu.name == menu_two_name %}
-                      {% if menu.link %}
-                        <div>
-                          <li><a href = test/{{menu.name}}>{{menu.name}}</a></li>
-                          {{menu.Essential_Ingredient}}
-                          <iframe width="250" height="250" src="{{menu.link}}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></i290me>
-                        </div>
-                      {% endif %}
-                    {% endif %}
-                  {% endfor %}
-                {% endfor %}
-              {% endif %}
+              <p><h2>{{input}} + 1</h2></p>
+              {% for name, ingredient, link in menu_two_zipper %}
+                <div id = "each_video">
+                  <iframe width="250" height="250" src="{{link}}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                  <div id = "explanation" class = "jumbotron">
+                        <li stlye = "padding-left: 10px;"><a href = test/{{name}}>{{name}}</a></li>
+                        <div style = "padding: 10px;">{{ingredient}}</div>
+                    </div>
+                </div>
+              {% endfor %}
+            {% endif %}
             </div>
+            <br><br>
 
             <div id = "video">
               {% if menu_three %}
-                <p><h2>{{input}} + 2</h2></p>
-                {% for menu in menus %}
-                  {%for menu_three_name in menu_three %}
-                    {% if menu.name == menu_three_name %}
-                      {% if menu.link %}
-                        <div>
-                          <li><a href = test/{{menu.name}}>{{menu.name}}</a></li>
-                          {{menu.Essential_Ingredient}}
-                          <iframe width="250" height="250" src="{{menu.link}}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        </div>
-                      {% endif %}
-                    {% endif %}
-                  {% endfor %}
-                {% endfor %}
-              {% endif %}
+              <p><h2>{{input}} + 2</h2></p>
+              {% for name, ingredient, link in menu_three_zipper %}
+                <div id = "each_video">
+                  <iframe width="250" height="250" src="{{link}}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                  <div id = "explanation" class = "jumbotron">
+                        <li stlye = "padding-left: 10px;"><a href = test/{{name}}>{{name}}</a></li>
+                        <div style = "padding: 10px;">{{ingredient}}</div>
+                    </div>
+                </div>
+              {% endfor %}
+            {% endif %}
             </div>
+            <br><br>
 
             <div id = "video">
               {% if menu_four %}
-                <p><h2>{{input}} + α</h2></p>
-                {% for menu in menus %}
-                  {%for menu_four_name in menu_four %}
-                    {% if menu.name == menu_four_name %}
-                      {% if menu.link %}
-                        <div>
-                          <li><a href = test/{{menu.name}}>{{menu.name}}</a></li>
-                          <span id = "block">{{menu.Essential_Ingredient}}</span>
-                          <iframe width="250" height="250" src="{{menu.link}}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        </div>
-                      {% endif %}
-                    {% endif %}
-                  {% endfor %}
-                {% endfor %}
-              {% endif %}
+              <p><h2>{{input}} + α</h2></p>
+              {% for name, ingredient, link in menu_four_zipper %}
+                <div id = "each_video">
+                  <iframe width="250" height="250" src="{{link}}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                  <div id = "explanation" class = "jumbotron">
+                        <li stlye = "padding-left: 10px;"><a href = test/{{name}}>{{name}}</a></li>
+                        <div style = "padding: 10px;">{{ingredient}}</div>
+                    </div>
+                </div>
+              {% endfor %}
+            {% endif %}
             </div>
+            <br><br>
 
 <br><br>
         </div>

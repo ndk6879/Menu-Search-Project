@@ -8,9 +8,11 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <style>
+
     .form-inline {display: inline;}
     .form-inline > input {margin: 8px;}
     .form-inline > .form-control.mr-sm-2 {margin: 0;}
+
     #two > #video {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
@@ -24,8 +26,10 @@
   </head>
 
   <body>
-    <div class = "container">
-      <div class = "jumbotron text-center">
+    <!--class container, row col-md-*는 bootstrap의 class임. 그래서 바꾸기 X
+     -->
+     <div class = "container">
+      <div class = "jumbotron text-center" style = "background-color: #fafafa;">
           <h2><a href = "{% url 'foodapp:index' %}">DJango Test</a></h1>
       </div>
 
@@ -49,11 +53,11 @@
           <h4>Welcome!</h4>
 
           <div id = 'video'>
-            {% for a,b in zippers %}
-            {% if a and b %}
+            {% for name, link in zippers %}
+            {% if name and link %}
               <div>
-                {{a}}
-                <iframe width="250" height="250" src="{{b}}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <li><a href = "test/{{name}}">{{name}}</a></li>
+                <iframe width="250" height="250" src="{{link}}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 <br><br>
               </div>
             {% endif %}
