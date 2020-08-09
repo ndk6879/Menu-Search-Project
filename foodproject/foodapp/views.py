@@ -8,7 +8,7 @@ from django.urls import reverse
 from .forms import MenuForm
 
 
-
+# 검색할 때 split()설정.
 # ETC part
 # 해본 음식은 색깔 바꾸게 하기. -> JS
 # search keywords by tag key
@@ -102,6 +102,7 @@ def search(request):
             while(q < len(ingredients_of_menu_list[i].split(', '))):
                 if (ingredients_of_menu_list[i].split(', '))[q].startswith(' '):
                     (ingredients_of_menu_list[i].split(', '))[q] = ((ingredients_of_menu_list[i].split(', '))[q])[1:]
+
 
                 if input1 in category_menu:
                     break
