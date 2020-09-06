@@ -1,12 +1,5 @@
-from django.shortcuts import render, redirect
-from django.http import HttpResponse, HttpResponseRedirect
-from .models import Menu
-import sys
-import io
-import cgi
-from django.urls import reverse
-from .forms import MenuForm
-
+# 재료 찾는 파트를 method로 만들어서 호출하기 -> 그 부분의 코드가 짧아지고 가독성이 높아지고 따로 관리하고 수정하기 편ㅡ안
+# 공통되는 변수들을 묶어서 publicize해서 여러군데에서 사용하게 하기 -> 각각의 메소드(함수)에 다시 따로 만들 필요가 없음
 
 # 검색할 때 split()설정.
 # ETC part
@@ -29,32 +22,38 @@ from .forms import MenuForm
 # nav var PP
 # 양념들 어떻게 할지 -> model에서 non-essneitals재료 추가.PP
 
-def test(request, food):
-    menus = Menu.objects.all().order_by('name')
-    food = Menu.objects.all().get(name=food)
-    Essential_Ingredient = Menu.objects.values_list('Essential_Ingredient', flat=True).get(name=food) #모델에 있는 메뉴 재료
-    Nonessential_Ingredient = Menu.objects.values_list('Nonessential_Ingredient', flat=True).get(name=food) #모델에 있는 메뉴 재료
-    link = Menu.objects.values_list('link', flat=True).get(name=food) #모델에 있는 메뉴 재료
-    tip = Menu.objects.values_list('tip', flat=True).get(name=food) #모델에 있는 메뉴 재료
-    context = {'menus':menus, 'food' : food, 'Essential_Ingredient' : Essential_Ingredient, 'Nonessential_Ingredient':Nonessential_Ingredient,
-    'link' : link, 'tip' : tip}
-    return render(request, 'foodapp/test.html', context)
+from django.shortcuts import render, redirect
+from django.http import HttpResponse, HttpResponseRedirect
+from .models import Menu
+import sys
+import io
+import cgi
+from django.urls import reverse
+from .forms import MenuForm
+
+
+menus = Menu.objects.all().order_by('name') #모든데 다 쓰임
+names = list(Menu.objects.values_list('name', flat=True))
+#모델에 있는 메뉴 #flat을 사용하면 tuple말고 리스트 형태의 쿼리셋으로 가져올 수 있다.
+#마지막에 list를 써서 쿼리셋을 리스트로 변환
 
 def index(request):
-    menus = Menu.objects.all().order_by('name')
-    names = (list(Menu.objects.values_list('name', flat=True))) #모델에 있는 메뉴 #flat을 사용하면 tuple말고 리스트 형태로 가져올 수 있다.
-    ingredients = list(Menu.objects.values_list('Essential_Ingredient', flat=True)) #모델에 있는 메뉴 재료
-    nonessential_ingredients = list(Menu.objects.values_list('Nonessential_Ingredient', flat=True)) #모델에 있는 메뉴 재료
-    links = list(Menu.objects.values_list('link', flat=True)) #모델에 있는 메뉴 재료
+    links = list(Menu.objects.values_list('link', flat=True))
     zippers = zip(names, links)
     context = {'menus':menus, 'names':names, 'links': links, 'zippers':zippers}
     return render(request, 'foodapp/index.html', context)
 
-def search(request):
-    menus = Menu.objects.all().order_by('name')
-    names = list(Menu.objects.values_list('name', flat=True))
-    ingredients = list(Menu.objects.values_list('Essential_Ingredient', flat=True))
+def test(request, food):
+    food = Menu.objects.all().get(name=food)
+    Essential_Ingredient = Menu.objects.values_list('Essential_Ingredient', flat=True).get(name=food)
+    Nonessential_Ingredient = Menu.objects.values_list('Nonessential_Ingredient', flat=True).get(name=food)
+    link = Menu.objects.values_list('link', flat=True).get(name=food)
+    tip = Menu.objects.values_list('tip', flat=True).get(name=food)
+    context = {'menus':menus, 'food' : food, 'Essential_Ingredient' : Essential_Ingredient, 'Nonessential_Ingredient':Nonessential_Ingredient,
+    'link' : link, 'tip' : tip, 'names':names}
+    return render(request, 'foodapp/test.html', context)
 
+def search(request):
     meat_including_menus = ((Menu.objects.filter(Essential_Ingredient__contains='베이컨')|Menu.objects.filter(Essential_Ingredient__contains='다진 돼지고기')
     |Menu.objects.filter(Essential_Ingredient__contains='고기')|Menu.objects.filter(Essential_Ingredient__contains='소고기')
     |Menu.objects.filter(Essential_Ingredient__contains='목살')|Menu.objects.filter(Essential_Ingredient__contains='대패삼겹살')
@@ -79,6 +78,7 @@ def search(request):
         noodle_food[noodle_including_menus_names[i]] = noodle_including_menus_ingredients[i]
 
     menu_list = names
+    ingredients = list(Menu.objects.values_list('Essential_Ingredient', flat=True))
     ingredients_of_menu_list = ingredients
     category_menu = ['고기', '면']
     input = request.GET.get('food')
@@ -102,7 +102,6 @@ def search(request):
             while(q < len(ingredients_of_menu_list[i].split(', '))):
                 if (ingredients_of_menu_list[i].split(', '))[q].startswith(' '):
                     (ingredients_of_menu_list[i].split(', '))[q] = ((ingredients_of_menu_list[i].split(', '))[q])[1:]
-
 
                 if input1 in category_menu:
                     break
@@ -160,7 +159,6 @@ def search(request):
     return render(request, 'foodapp/search.html', context)
 
 def create(request):
-    menus = Menu.objects.all().order_by('name')
     if request.method == 'POST':
         form = MenuForm(request.POST)
         if form.is_valid():

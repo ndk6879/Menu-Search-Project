@@ -6,6 +6,9 @@ import io
 import cgi
 from .forms import *
 
+# {% url 'detail' question.id %}
+# <li><a href="{% url 'foodapp:test' food %}">{{ question.subject }}</a></li> -> detail앞에 pybo를 붙여줌.
+
 app_name = 'foodapp'
 urlpatterns = [
     path('', views.index, name = 'index'),

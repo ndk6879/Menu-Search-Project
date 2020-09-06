@@ -1,168 +1,82 @@
-<!DOCTYPE html>
-{% load static %}
+<head>
+<style>
+#explanation {
+  margin: 0;
+  background-color: #fafafa;
+  text-align: left;
+  padding: 0px;
+}
 
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <style>
+#explanation > li {
+  padding-left: 10px;
+  list-style-type: none;
+}
+</style>
+</head>
 
-    .form-inline {display: inline;}
-    .form-inline > input {margin: 8px;}
-    .form-inline > .form-control.mr-sm-2 {margin: 0;}
-
-    #two > #video {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      text-align: center;
-    }
-
-    #video > div {
-      padding: 10px;
-    }
-
-    #explanation {
-      margin: 0;
-      background-color: #fafafa;
-      text-align: left;
-      padding: 0px;
-    }
-
-    #explanation > li {
-      padding-left: 10px;
-      list-style-type: none;
-
-    }
-
-
-    /* #each_video {
-      padding: 0;
-    } */
-/*
-    #block {
-      min-width: 300px;
-    } */
-    </style>
-  </head>
-
-  <body>
-    <div class = "container">
-      <div class = "jumbotron text-center" style = "background-color: #fafafa;">
-          <h2><a href = "{% url 'foodapp:index' %}">DJango Test</a></h1>
-      </div>
-
-      <div class="row">
-        <div id = 'one' class="col-md-3">
-          {% for menu in menus %}
-          <li><a href = test/{{menu.name}}>{{menu.name}}</a></li>
-          {% endfor %}
-          {% csrf_token %}
-        </div>
-        <hr>
-
-        <div id = 'two' class= "col-md-9">
-          <form class="form-inline" action = "{% url 'foodapp:search' %}" autocomplete= "on">
-            <input class="form-control mr-sm-2" type="search" name = "food" placeholder="Search" aria-label="Search">
-            <button class = "btn btn-outline-primary btn-md" type="submit">Search</button>
-          </form>
-          <button class = "btn btn-outline-primary btn-md" value = "Edit" onClick="location.href='http://127.0.0.1:8000/admin/'">Edit</button>
-          <button class = "btn btn-outline-primary btn-md" value = "Create" onClick="location.href='{% url 'foodapp:create' %}'">Create</button>
-          <hr>
-          <!-- menu_one: {{menu_one}}<br><br>
-          menu_two: {{menu_two}}<br><br>
-          menu_three: {{menu_three}}<br><br>
-          menu_four: {{menu_four}}<br><br>
-          link_for_one: {{link_for_one}}<br><br>
-          link_for_two: {{link_for_two}}<br><br>
-          link_for_three: {{link_for_three}}<br><br>
-          link_for_four: {{link_for_four}}<br><br>
-          xiab: {{xiab}}
-          -->
-
-          <!-- menu_one_zipper: {{menu_one_zipper}}<br><br>
-          menu_two_zipper: {{menu_two_zipper}}<br><br>
-          menu_three_zipper: {{menu_three_zipper}}<br><br>
-          menu_four_zipper: {{menu_four_zipper}}<br><br> -->
-          <!-- {%for i in ingredients_of_menu_list%}
-          {{i}}<br><br>
-          {% endfor %}
-           -->
-          <div id = "video">
-            {% if menu_one %}
-              <p><h2>Only {{input}}</h2></p>
-              {% for name, ingredient, link in menu_one_zipper %}
-                <div id = "each_video">
-                    <iframe width="250" height="250" src="{{link}}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                    <div id = "explanation" class = "jumbotron">
-                        <li><a href = test/{{name}}>{{name}}</a></li>
-                        <div style = "padding: 10px;">{{ingredient}}</div>
-                    </div>
-                </div>
-              {% endfor %}
-            {% endif %}
+{% extends 'base.html' %}
+{% block content %}
+<div id = "video">
+  {% if menu_one %}
+    <p><h2>Only {{input}}</h2></p>
+    {% for name, ingredient, link in menu_one_zipper %}
+      <div id = "each_video">
+          <iframe width="250" height="250" src="{{link}}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          <div id = "explanation" class = "jumbotron">
+              <li><a href = test/{{name}}>{{name}}</a></li>
+              <div style = "padding: 10px;">{{ingredient}}</div>
           </div>
-          <br><br>
-<!-- if menu_one
-  if link:
-    Title & menu.name & menu.Essential_Ingredient -->
-
-            <div id = "video">
-              {% if menu_two %}
-              <p><h2>{{input}} + 1</h2></p>
-              {% for name, ingredient, link in menu_two_zipper %}
-                <div id = "each_video">
-                  <iframe width="250" height="250" src="{{link}}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                  <div id = "explanation" class = "jumbotron">
-                        <li stlye = "padding-left: 10px;"><a href = test/{{name}}>{{name}}</a></li>
-                        <div style = "padding: 10px;">{{ingredient}}</div>
-                    </div>
-                </div>
-              {% endfor %}
-            {% endif %}
-            </div>
-            <br><br>
-
-            <div id = "video">
-              {% if menu_three %}
-              <p><h2>{{input}} + 2</h2></p>
-              {% for name, ingredient, link in menu_three_zipper %}
-                <div id = "each_video">
-                  <iframe width="250" height="250" src="{{link}}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                  <div id = "explanation" class = "jumbotron">
-                        <li stlye = "padding-left: 10px;"><a href = test/{{name}}>{{name}}</a></li>
-                        <div style = "padding: 10px;">{{ingredient}}</div>
-                    </div>
-                </div>
-              {% endfor %}
-            {% endif %}
-            </div>
-            <br><br>
-
-            <div id = "video">
-              {% if menu_four %}
-              <p><h2>{{input}} + α</h2></p>
-              {% for name, ingredient, link in menu_four_zipper %}
-                <div id = "each_video">
-                  <iframe width="250" height="250" src="{{link}}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                  <div id = "explanation" class = "jumbotron">
-                        <li stlye = "padding-left: 10px;"><a href = test/{{name}}>{{name}}</a></li>
-                        <div style = "padding: 10px;">{{ingredient}}</div>
-                    </div>
-                </div>
-              {% endfor %}
-            {% endif %}
-            </div>
-            <br><br>
-
-<br><br>
-        </div>
       </div>
-      <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-      <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-    </div>
-  </body>
-</html>
+    {% endfor %}
+  {% endif %}
+</div>
+<br><br>
+
+  <div id = "video">
+    {% if menu_two %}
+    <p><h2>{{input}} + 1</h2></p>
+    {% for name, ingredient, link in menu_two_zipper %}
+      <div id = "each_video">
+        <iframe width="250" height="250" src="{{link}}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <div id = "explanation" class = "jumbotron">
+              <li stlye = "padding-left: 10px;"><a href = test/{{name}}>{{name}}</a></li>
+              <div style = "padding: 10px;">{{ingredient}}</div>
+          </div>
+      </div>
+    {% endfor %}
+  {% endif %}
+  </div>
+  <br><br>
+
+  <div id = "video">
+    {% if menu_three %}
+    <p><h2>{{input}} + 2</h2></p>
+    {% for name, ingredient, link in menu_three_zipper %}
+      <div id = "each_video">
+        <iframe width="250" height="250" src="{{link}}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <div id = "explanation" class = "jumbotron">
+              <li stlye = "padding-left: 10px;"><a href = test/{{name}}>{{name}}</a></li>
+              <div style = "padding: 10px;">{{ingredient}}</div>
+          </div>
+      </div>
+    {% endfor %}
+  {% endif %}
+  </div>
+  <br><br>
+
+  <div id = "video">
+    {% if menu_four %}
+    <p><h2>{{input}} + α</h2></p>
+    {% for name, ingredient, link in menu_four_zipper %}
+      <div id = "each_video">
+        <iframe width="250" height="250" src="{{link}}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <div id = "explanation" class = "jumbotron">
+              <li stlye = "padding-left: 10px;"><a href = test/{{name}}>{{name}}</a></li>
+              <div style = "padding: 10px;">{{ingredient}}</div>
+          </div>
+      </div>
+    {% endfor %}
+  {% endif %}
+  </div>
+  <br><br>
+{% endblock %}
