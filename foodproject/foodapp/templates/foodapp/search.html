@@ -1,22 +1,37 @@
 <head>
 <style>
-#explanation {
-  margin: 0;
-  background-color: #fafafa;
-  text-align: left;
-  padding: 0px;
-}
+  #explanation {
+    margin: 0;
+    background-color: #fafafa;
+    text-align: left;
+    padding: 0px;
+  }
 
-#explanation > li {
-  padding-left: 10px;
-  list-style-type: none;
-}
+  #explanation > li {
+    padding-left: 10px;
+    list-style-type: none;
+  }
 </style>
 </head>
 
 {% extends 'base.html' %}
 {% block content %}
 <div id = "video">
+  {{bbb}}<br><br>
+  {{tmp}}<br><br>
+  {{tmp_queryset}}<br><br>
+  {{menu_one}}<br><br>
+  {{menu_two}}<br><br>
+  {{menu_three}}<br><br>
+  {{menu_four}}<br><br>
+  <!-- {{menumenu}}<br><br>
+  {{namename}}<br><br>
+  {{ingreingre}}<br><br>
+  {{linklink}}<br><br>
+  {{menus}}<br><br>
+  {{names}}<br><br> -->
+
+
   {% if menu_one %}
     <p><h2>Only {{input}}</h2></p>
     {% for name, ingredient, link in menu_one_zipper %}

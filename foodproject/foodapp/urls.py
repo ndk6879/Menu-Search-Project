@@ -1,25 +1,15 @@
 from django.urls import path, re_path
 from django.conf.urls import url
-from . import views
+from .views import main_views, search_views
 import sys
 import io
 import cgi
 from .forms import *
 
-# {% url 'detail' question.id %}
-# <li><a href="{% url 'foodapp:test' food %}">{{ question.subject }}</a></li> -> detail앞에 pybo를 붙여줌.
-
 app_name = 'foodapp'
 urlpatterns = [
-    path('', views.index, name = 'index'),
-    path('create', views.create, name='create'),
-    path('search', views.search, name = 'search'),
-    path('test/<str:food>', views.test, name = 'test'),
-    # re_path(r'^test/(?P<food>[\w\s]+)$',views.test, name = 'test'),
-    # re_path(r'^testing/(?P<testing>.+)$',views.testing, name = 'testing')
+    path('', main_views.index, name = 'index'),
+    path('create', main_views.create, name='create'), #원래는 views.create(views.py에 있는 create함수)였는데 지금은 main_views.py에 있는 create함수
+    path('search', search_views.search, name = 'search'),
+    path('test/<str:food>', main_views.test, name = 'test'),
 ]
-
-#    re_path(r'^keword-parameter/(?P<cellphonee>010[1-9]\d{7})$', views.get_cellphone),
-
-# def get_cellphone(request, cellphonee):
-#     return HttpResponse("휴대폰번호는 {} 입니다.".format(cellphonee))
