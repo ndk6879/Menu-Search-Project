@@ -6,10 +6,11 @@ class Menu(models.Model):
     Nonessential_Ingredient = models.CharField(max_length = 100, blank=True,default ='')
     link = models.CharField(max_length = 200, blank=True, default ='')
     tip = models.TextField(blank=True, default ='')
+    category = models.CharField(max_length = 15, blank=True,default ='')
 
     class Meta:
         verbose_name_plural = 'Menu' #admin에서 Menus를 Menu로 바꿔줌
-    # 
+    #
     # def publish(self):
     #     self.published_at = timezone.now()
     #     self.save()

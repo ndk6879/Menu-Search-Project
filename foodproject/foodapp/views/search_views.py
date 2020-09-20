@@ -34,18 +34,21 @@ def search(request):
     #2. 메뉴 범위 정하기
     menus = Menu.objects.all().order_by('name')
     names = menus.values_list('name', flat=True)
-    ingredients = menus.values_list('Essential_Ingredient', flat=True)
+    ingredients = names.values_list('Essential_Ingredient', flat=True)
 
     input = request.GET.get('food')
     split_my_input = input.split(', ')
 
     if '고기' in input:
-        names = meat_including_menus.values_list('name', flat=True)
-        ingredients  = meat_including_menus.values_list('Essential_Ingredient', flat=True)
+        # ingredients  = names.values_list('Essential_Ingredient', flat=True)
+        names = menus.values_list('name', flat=True).filter(category__contains='고기')
+        ingredients = names.values_list('Essential_Ingredient', flat=True)
+        # names = meat_including_menus.values_list('name', flat=True)
+        # ingredients  = meat_including_menus.values_list('Essential_Ingredient', flat=True)
 
     if '면' in input:
-        names = noodle_including_menus.values_list('name', flat=True)
-        ingredients  = noodle_including_menus.values_list('Essential_Ingredient', flat=True)
+        names = menus.values_list('name', flat=True).filter(category__contains='면')
+        ingredients = names.values_list('Essential_Ingredient', flat=True)
 
     #3. 검색실행
     category_menu = ['고기', '면']
@@ -68,7 +71,7 @@ def search(request):
                     count += 1
 
                 q = q + 1
-    
+
         if len(split_my_input) == count:
             if len(ingredients[i].split(', ')) == 1 and Menu.objects.values_list('link', flat=True).get(name=names[i]):
                 menu_one[names[i]] = ingredients[i]
