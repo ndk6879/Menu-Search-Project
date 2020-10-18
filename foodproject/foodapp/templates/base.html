@@ -21,7 +21,7 @@
 
     #video > div {
       padding: 10px;
-    }    
+    }
     </style>
   </head>
 
@@ -35,8 +35,8 @@
 
       <div class="row">
         <div  id = 'one' class="col-md-3">
-          {% for name in names %}
-          <li><a href = "{% url 'foodapp:test' name %}">{{name}}</a></li>
+          {% for menu in menus %}
+          <li><a href = "{% url 'foodapp:test' menu.name %}">{{menu.name}}</a></li>
           {% endfor %}
           {% csrf_token %}
         </div>

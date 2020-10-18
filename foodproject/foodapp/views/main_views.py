@@ -5,22 +5,6 @@
 # ETC part
 # 해본 음식은 색깔 바꾸게 하기. -> JS
 # search keywords by tag key
-# 모든 메뉴(All menu), 집밥 메뉴(home cook), 분위기 메뉴(Mood), 올킬 메뉴(Clearance)
-# 배포
-
-# 재료 입력 (고기 or 돼지고기)-> 동일검색결과. +면도 되게 하기. OK
-# views.refactoring *띄어쓰기 상관없이 같은결과. OK
-# db구현화(name클릭하면 필드 나오기) OK
-# 나의 review & 댓글,후기, Q&A OK
-# 이름 오류 바꾸기 OK
-# 2가지 이상 재료 검색 & 검색창 설정하기 OK
-# url field만들기 OK
-# 없으면 출력 안시키기 OK
-# CSS 꾸미기 (index.page, create page) OK
-# db name 순서대로 OL
-
-# nav var PP
-# 양념들 어떻게 할지 -> model에서 non-essneitals재료 추가.PP
 
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
@@ -33,24 +17,18 @@ from ..forms import MenuForm
 
 
 menus = Menu.objects.all().order_by('name') #모든데 다 쓰임
-names = list(Menu.objects.values_list('name', flat=True))
-#모델에 있는 메뉴 #flat을 사용하면 tuple말고 리스트 형태의 쿼리셋으로 가져올 수 있다.
-#마지막에 list를 써서 쿼리셋을 리스트로 변환
+names = menus.values_list('name', flat=True)
 
 def index(request):
-    links = list(Menu.objects.values_list('link', flat=True))
-    zippers = zip(names, links)
-    context = {'menus':menus, 'names':names, 'links': links, 'zippers':zippers}
+    context = {'menus':menus, 'names':names}
     return render(request, 'foodapp/index.html', context)
 
 def test(request, food):
-    food = Menu.objects.all().get(name=food)
-    Essential_Ingredient = Menu.objects.values_list('Essential_Ingredient', flat=True).get(name=food)
-    Nonessential_Ingredient = Menu.objects.values_list('Nonessential_Ingredient', flat=True).get(name=food)
-    link = Menu.objects.values_list('link', flat=True).get(name=food)
-    tip = Menu.objects.values_list('tip', flat=True).get(name=food)
-    context = {'menus':menus, 'food' : food, 'Essential_Ingredient' : Essential_Ingredient, 'Nonessential_Ingredient':Nonessential_Ingredient,
-    'link' : link, 'tip' : tip, 'names':names}
+    food = Menu.objects.get(name=food)
+
+    context = {'menus':menus,
+    'food':food,
+    }
     return render(request, 'foodapp/test.html', context)
 
 def create(request):

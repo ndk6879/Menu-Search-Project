@@ -16,25 +16,13 @@
 
 {% extends 'base.html' %}
 {% block content %}
-<h1 style = "text-align: center;">{{food}}</h1><br>
+<h1 style = "text-align: center;">{{food.name}}</h1><br><br>
 
-<div id = "test" style = "text-align: center;">
-{% if link %}<iframe src="{{link}}" width = "500px" height = "350px" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>{% endif %}
-<div><!-- <div class = "test jumbotron test" style="background-color: #fafafa;"> -->
-  {% if Essential_Ingredient %}
-    <div><h5><li>필수재료 </li>{{Essential_Ingredient}}</div><br>
-  {% endif %}
-
-  {% if nonessential_Ingredients %}
-    <div><h5><li>추가재료 </li>{{nonessential_Ingredients}}</div><br>
-  {% endif %}
-
-  {% if tip %}
-    <div><h5><li>팁</li>{{tip}}</div><br>
-  {% endif %}
-
-  {% if link %}
-    <div><h5><li>링크</li><a href = {{link}}>{{link}}</a></div><br>
-  {% endif %}
-  {% csrf_token %}
+    <div id = "test" style = "text-align: center;">
+      <iframe src="{{food.link}}" width = "500px" height = "350px" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <div>
+    <div><h5><li>필수재료 </li>{{food.Essential_Ingredient}}</div><br>
+    <div><h5><li>추가재료 </li>{{food.nonessential_Ingredients}}</div><br>
+    <div><h5><li>팁</li>{{food.tip}}</div><br>
+    <div><h5><li>링크</li><a href = {{food.link}}>{{food.link}}</a></div><br>
 {% endblock %}

@@ -3,11 +3,11 @@
 <h4>Welcome!</h4>
 
 <div id = 'video'>
-{% for name, link in zippers %}
-{% if name and link %}
+{% for menu in menus %}
+{% if menu.link %}
   <div>
-    <li><a href = "test/{{name}}">{{name}}</a></li>
-    <iframe width="250" height="250" src="{{link}}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <li><a href = "test/{{menu.name}}">{{menu.name}}</a></li>
+    <iframe width="250" height="250" src="{{menu.link}}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     <br><br>
   </div>
 {% endif %}

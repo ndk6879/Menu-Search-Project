@@ -16,79 +16,64 @@
 
 {% extends 'base.html' %}
 {% block content %}
-
-<!-- menus: {{menus}}<br><br>
-names: {{names}}<br><br>
-ingredients: {{ingredients}}<br><br>
-menu1: {{menu_one.values}}<br><br>
-menu2: {{menu_two.values}}<br><br>
-menu3: {{menu_three.values}}<br><br>
-menu4: {{menu_four.values}}<br><br>
-zipper1: {{menu_one_zipper}}<br><br>
-zipper2: {{menu_two_zipper}}<br><br>
-zipper3: {{menu_three_zipper}}<br><br>
-zipper4: {{menu_four_zipper}}<br><br> -->
 <div id = "video">
   {% if menu_one %}
     <p><h2>Only {{input}}</h2></p>
-    {% for name, ingredient, link in menu_one_zipper %}
+    {% for menu in menu_one %}
       <div id = "each_video">
-          <iframe width="250" height="250" src="{{link}}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-          <div id = "explanation" class = "jumbotron">
-              <li><a href = test/{{name}}>{{name}}</a></li>
-              <div style = "padding: 10px;">{{ingredient}}</div>
-          </div>
+        <iframe width="250" height="250" src="{{menu.link}}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <div id = "explanation" class = "jumbotron">
+              <li stlye = "padding-left: 10px;"><a href = test/{{menu.name}}>{{menu.name}}</a></li>
+              <div style = "padding: 10px;">{{menu.Essential_Ingredient}}</div>
+        </div>
       </div>
     {% endfor %}
   {% endif %}
 </div>
 <br><br>
-
-  <div id = "video">
-    {% if menu_two %}
+<div id = "video">
+  {% if menu_two %}
     <p><h2>{{input}} + 1</h2></p>
-    {% for name, ingredient, link in menu_two_zipper %}
+    {% for menu in menu_two %}
       <div id = "each_video">
-        <iframe width="250" height="250" src="{{link}}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <iframe width="250" height="250" src="{{menu.link}}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         <div id = "explanation" class = "jumbotron">
-              <li stlye = "padding-left: 10px;"><a href = test/{{name}}>{{name}}</a></li>
-              <div style = "padding: 10px;">{{ingredient}}</div>
-          </div>
+              <li stlye = "padding-left: 10px;"><a href = test/{{menu.name}}>{{menu.name}}</a></li>
+              <div style = "padding: 10px;">{{menu.Essential_Ingredient}}</div>
+        </div>
       </div>
     {% endfor %}
   {% endif %}
-  </div>
-  <br><br>
-
-  <div id = "video">
-    {% if menu_three %}
+</div>
+<br><br>
+<div id = "video">
+  {% if menu_three %}
     <p><h2>{{input}} + 2</h2></p>
-    {% for name, ingredient, link in menu_three_zipper %}
+    {% for menu in menu_three%}
       <div id = "each_video">
-        <iframe width="250" height="250" src="{{link}}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <iframe width="250" height="250" src="{{menu.link}}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         <div id = "explanation" class = "jumbotron">
-              <li stlye = "padding-left: 10px;"><a href = test/{{name}}>{{name}}</a></li>
-              <div style = "padding: 10px;">{{ingredient}}</div>
-          </div>
+              <li stlye = "padding-left: 10px;"><a href = test/{{menu.name}}>{{menu.name}}</a></li>
+              <div style = "padding: 10px;">{{menu.Essential_Ingredient}}</div>
+        </div>
       </div>
     {% endfor %}
   {% endif %}
-  </div>
-  <br><br>
-
-  <div id = "video">
-    {% if menu_four %}
+</div>
+<br><br>
+<div id = "video">
+  {% if menu_four %}
     <p><h2>{{input}} + α</h2></p>
-    {% for name, ingredient, link in menu_four_zipper %}
+    {% for menu in menu_four %}
       <div id = "each_video">
-        <iframe width="250" height="250" src="{{link}}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <iframe width="250" height="250" src="{{menu.link}}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         <div id = "explanation" class = "jumbotron">
-              <li stlye = "padding-left: 10px;"><a href = test/{{name}}>{{name}}</a></li>
-              <div style = "padding: 10px;">{{ingredient}}</div>
-          </div>
+              <li stlye = "padding-left: 10px;"><a href = test/{{menu.name}}>{{menu.name}}</a></li>
+              <div style = "padding: 10px;">{{menu.Essential_Ingredient}}</div>
+        </div>
       </div>
     {% endfor %}
   {% endif %}
-  </div>
-  <br><br>
+</div>
+<br><br>
 {% endblock %}
