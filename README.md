@@ -1,8 +1,8 @@
 # Project
-Project that lets you search menu with ingredients that you have
+Project that you can search menu by entering ingredient(s)
 
 # Why
-I love cooking so with remainings of ingredients I've wanted to know what I can cook and how to use them efficiently.    
+I love cooking so with remainings of ingredients I wanted to know what menu I can cook and how to use them efficiently.    
 
 # Main Functions
   Search
