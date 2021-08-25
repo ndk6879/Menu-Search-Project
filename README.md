@@ -1,22 +1,17 @@
-# 프로젝트
-    내가 가지고 있는 재료로 어떤 메뉴를 만들 수 있는지 알 수 있는 프로그램.
+# Project
+Project that lets you search menu with ingredients that you have
 
-# 만든 이유
-    요리를 좋아해서 요리를 자주합니다. 그런데 항상 요리를 하면 재료가 남아서 남은 재료를 가지고 어떤 음식을 요리할 수 있고 어떻게 활용하면 좋을지 고민하다가 만들게 되었습니다. 
-    
+# Why
+I love cooking so with remainings of ingredients I've wanted to know what I can cook and how to use them efficiently.    
 
-# 주요 기능
-  1. 검색기능
-  - 재료를 입력하면 입력한 재료를 포함하는 메뉴가 화면에 나타납니다.
-  - '면'이나 '고기'와 같은 카테고리류 재료를 입력해도 메뉴가 나타납니다.
+# Main Functions
+  Search
+  - If ingredient(s) is/are entered, menu(s) including inputs will be output.
   ![검색](https://user-images.githubusercontent.com/46705205/96361916-9c343100-1164-11eb-9b1d-117cd2f2c428.gif)
 
-  2. 메뉴정보 보기
-  - 원하는 메뉴를 클릭하면 그 메뉴의 정보가 나타납니다.
+  Look
+  - If you click menu you want on the left side, you can see information of menu such as essential ingredients, recipe, and so on. 
   ![메뉴정보](https://user-images.githubusercontent.com/46705205/96362197-98091300-1166-11eb-8d81-ede4acdaf100.gif)
 
-
-
-  3. 메뉴 추가 기능(진행중)
-  - Create버튼을 눌러서 메뉴 추가하는 페이지로 이동.
-  - 요즘은 DB Browser for sqlite를 사용해 메뉴 추가. 추후에 나도 사용자도 메뉴를 쉽게 추가할 수 있게 업데이트 예정. (Update in CRUD)
+# Skills & Tools
+Python, Django, HTML, CSS, Bootstrap, Javascript, Github, DB Browser for SQLite
